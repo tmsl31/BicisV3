@@ -40,5 +40,12 @@ porcentajeTrain = 60;
 porcentajeVal = 20;
 disp(strcat('Porcentaje Train:'," ",string(porcentajeTrain),'%;Porcentaje Val:'," ",string(porcentajeVal),'%'))
 %Division de conjuntos
-[XTrain,XVal,XTest,YTrain,YVal,YTest] = divConjuntos(in,out,porcentajeTrain,porcentajeVal,norm);
+[XTrain,XVal,XTest,YTrain,YVal,YTest,muXTrain,stdXTrain,muYTrain,stdYTrain] = divConjuntos(in,out,porcentajeTrain,porcentajeVal,norm);
+
 %% Busqueda de numero de reglas.
+disp('<<Numero de Reglas>>')
+%Fuzzy C-Means.
+%Input
+maximoReglas = input('Numero Maximo de reglas:');
+%Grafica de la evolucion del error.
+[eTrainCluster1,eValCluster1] = clusters_optimo(YVal,YTrain,XVal,XTrain,nMax);

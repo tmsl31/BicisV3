@@ -1,4 +1,4 @@
-function [XTrain,XVal,XTest,YTrain,YVal,YTest] = divConjuntos(entradas,salida,porcentajeTrain,porcentajeVal,norm)
+function [XTrain,XVal,XTest,YTrain,YVal,YTest,muXTrain,stdXTrain,muYTrain,stdYTrain] = divConjuntos(entradas,salida,porcentajeTrain,porcentajeVal,norm)
     %Funcion que dados los porcentajes de entrenamiento, validación y test,
     %realiza la division en estos conjuntos.
     
@@ -19,13 +19,14 @@ function [XTrain,XVal,XTest,YTrain,YVal,YTest] = divConjuntos(entradas,salida,po
     %Test
     XTest = entradas(nElementosTrain + nElementosVal + 1:end,:);
     YTest = salida(nElementosTrain + nElementosVal + 1:end,1);
+    muXTrain = 0; stdXTrain = 0; muYTrain = 0; stdYTrain = 0;
     %Normalizacion
     if norm==1
-        [XTrain,XVal,XTest,YTrain,YVal,YTest] = normalize(XTrain,XVal,XTest,YTrain,YVal,YTest);
+        [XTrain,XVal,XTest,YTrain,YVal,YTest,muXTrain,stdXTrain,muYTrain,stdYTrain] = normalize(XTrain,XVal,XTest,YTrain,YVal,YTest);
     end
 end
 
-function [XTrain,XVal,XTest,YTrain,YVal,YTest] = normalize(XTrain,XVal,XTest,YTrain,YVal,YTest)
+function [XTrain,XVal,XTest,YTrain,YVal,YTest,muXTrain,stdXTrain,muYTrain,stdYTrain] = normalize(XTrain,XVal,XTest,YTrain,YVal,YTest)
     %Funcion que normaliza.
 
     %Estadisticos de entrenamiento

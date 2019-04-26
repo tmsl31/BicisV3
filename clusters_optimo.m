@@ -12,8 +12,8 @@ errent=zeros(max_clusters-1,1);% se inicializa el vector de error de entreneamie
 % clusters
 pos=[];
 for i=2:max_clusters
-[model,result]=TakagiSugeno(yent,Xent,i,[1 2 2]);% en caso de no funcionar usar [2 2 1]
-ps1=ps1+1
+[model,result]=TakagiSugeno(yent,Xent,i,[1 4 2]);% en caso de no funcionar usar [2 2 1]
+ps1=ps1+1;
 pos=[pos,ps1];
 y1=ysim(Xent,model.a,model.b,model.g);
 y2=ysim(Xtest,model.a,model.b,model.g);
@@ -22,10 +22,10 @@ errent(i-1)=sqrt(mean((y1-yent).^2));
 end
 %Finalmente se grafican ambos errores
 figure ()
-plot(pos,errtest,'b','LineWidth',2)
+plot(pos,errtest,'*-b','LineWidth',2)
 hold on
 grid on
-plot(pos,errent,'red','LineWidth',2)
+plot(pos,errent,'+-red','LineWidth',2)
 legend('Error de test','Error de entrenamiento')
 xlabel('Número de clusters')
 ylabel('Error cuadrático medio')
