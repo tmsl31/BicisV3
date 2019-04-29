@@ -42,3 +42,32 @@ disp('<<Numero de Reglas>>')
 maximoReglas = input('Numero Maximo de reglas:');
 %Grafica de la evolucion del error.
 [eTrainCluster1,eValCluster1] = clusters_optimo(YVal,YTrain,XVal,XTrain,maximoReglas);
+%Numero de reglas determinado mediante la visualización del error de
+%validacion
+optimoReglas = input('Numero de reglas optimo:');
+
+%% Analisis de sensibilidad.
+disp('<<Analisis de Sensibilidad>>')
+%Calculo del error
+[vecErrorVal,matricesTrain,matricesVal,indicesEliminacion,matIndices] = variablesRelevantes(XTrain,YTrain,XVal,YVal,nOptimo);
+disp(strcat('orden de eliminacion:'))
+disp(indicesEliminacion)
+%% Construccion del modelo.
+disp('<<Construccion del modelo de T&S>>')
+%Vector de indices a mantener en entrada.
+indicesMantener = input('Vector de indices a mantener en entrada:');
+%Eliminacion de regresores.
+[XTrain2,XVal2,XTest2] = seleccionCaracteristicas(XTrain,XVal,XTest,indicesEntradas);
+%Nueva prueba de numero de clusters con el numero de regresores utilizados.
+[eTrainCluster2,eValCluster2] = clusters_optimo(YVal,YTrain,XVal2,XTrain2,maximoReglas);
+%Numero de reglas a utilizar
+optimoReglas2 = input('Numero de reglas a utilizar');
+%Entrenamiento del modelo de Takagi-Sugeno con el numero de reglas
+%determinado.
+TakagiSugeno(YTrain,XTrain2,optimoReglas2,[1 2 2]);
+
+%% Predicciones.
+
+
+
+
