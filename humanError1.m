@@ -76,3 +76,24 @@ YEstimado = desnorm(YEstimadoTest,muYTrain,stdYTrain);
 YRealTest = desnorm(YRealTest,muYTrain,stdYTrain);
 %Calculo de RMSE
 RMSESalida = RMSE(YEstimado,YRealTest);
+
+
+%% Graficos a un paso.
+figure()
+hold on
+plot(YEstimado)
+plot(YRealTest)
+legend('Estimado','Real')
+title('Comparación entre salida estimada y real')
+xlabel('Numero de muestra')
+ylabel('Error (m/s^2)')
+hold off
+
+figure()
+hold on
+plot(YEstimado-YRealTest)
+title('Diferencia entre salida estimada y real')
+xlabel('Numero de muestra')
+ylabel('Y_{estimada} - Y_{real} (m/s^2)')
+RMSE(YEstimado,YRealTest)
+

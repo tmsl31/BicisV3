@@ -29,3 +29,13 @@ function [salida,entrada] = estructuraRegresoresVelocidad(datos1,datos2,datos3,v
         [salida,entrada] = shuffleFilas(matConjunta);
     end    
 end
+
+function [salida,entradas] = shuffleFilas(matriz)
+    %Funcion que desordene las filas.
+    
+    %Shuffle.
+    randMatriz = matriz(randperm(size(matriz, 1)), :);
+    %Division en entradas y salidas.
+    salida = randMatriz(:,1);
+    entradas = randMatriz(:,2:end);
+end
