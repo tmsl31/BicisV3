@@ -16,15 +16,15 @@ function [out,in] = estructuraModelo(nRegresores, tipoModelo)
     highSpeed = 5.00;
     
     %Distincion entre tipos de modelos.
-    if (tipoModelo == 1)
+    if (tipoModelo == 0)
         %Caso unicamente autoregresivo.
         disp('<<Generacion de estructura autoregresiva.>>')
         %Generacion de la estructura autoregresiva. Se utilizan datos
         %desordenados por defecto.
         [out,in] = estructuraAutoregresiva(lowData,mediumData,highData,nRegresores,1);
         disp('Estructura Autoregresiva')
-        disp(strcat('Se utilizan inicialmente '," ",string(nRegresores)," " ,'Regresores inicialmente'))
-    elseif (tipoModelo == 2)
+        disp(strcat('Se utilizan inicialmente '," ",string(nRegresores)," " ,'regresores'))
+    elseif (tipoModelo == 1)
         %Modelo autoregresivo con la velocidad de lider.
         disp('<<Generacion de estructura autoregresiva + Velocidad de lider..>>')
         %Generacion de la estructura.
