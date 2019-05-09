@@ -2,7 +2,7 @@ function [YPredict,Y] = predictPasosBaseline(parametros,nPasos,XTest,YTest,muYTr
     %Realiza el calculo de las predicciones a varios pasos.
     
     %Numero de regresores.
-    [nMuestras,nRegresores] = size(XTest);
+    %[nMuestras,nRegresores] = size(XTest);
     %Casos
     if (nPasos==1)
        %Un paso
@@ -13,9 +13,9 @@ function [YPredict,Y] = predictPasosBaseline(parametros,nPasos,XTest,YTest,muYTr
         %Prediccion paso 1
         X1 = XTest * parametros;
         %Nuevo vector de entrada
-        X = [X1(1:nMuestras-1),XTest(2:nMuestras,1:nRegresores-1)];
+        X = [X1(1:end-1),XTest(2:end,1:end-1)];
         %Nuevo vector Salidas.
-        Y = YTest(2:nMuestras);
+        Y = YTest(2:end);
         %Predicciones
         YPredict = X * parametros;
         %Denormalizacion
@@ -27,7 +27,7 @@ function [YPredict,Y] = predictPasosBaseline(parametros,nPasos,XTest,YTest,muYTr
         %Prediccion paso 1
         X1 = XTest * parametros;
         %Nuevo vector de entrada
-        X = [X1(1:nMuestras-1),XTest(2:nMuestras,1:nRegresores-1)];
+        X = [X1(1:end-1),XTest(2:end,1:end-1)];
    
         %Prediccion a dos pasos.
         X2 = X * parametros;
@@ -37,7 +37,7 @@ function [YPredict,Y] = predictPasosBaseline(parametros,nPasos,XTest,YTest,muYTr
         %Prediccion a tres pasos.
         YPredict = X * parametros;
         %Nuevo vector Salidas.
-        Y = YTest(nPasos:nMuestras);
+        Y = YTest(nPasos:end);
         %Denormalizacion
         Y = desnorm(Y,muYTrain,stdYTrain);
         YPredict = desnorm(YPredict,muYTrain,stdYTrain); 
@@ -47,7 +47,7 @@ function [YPredict,Y] = predictPasosBaseline(parametros,nPasos,XTest,YTest,muYTr
         %Prediccion paso 1
         X1 = XTest * parametros;
         %Nuevo vector de entrada
-        X = [X1(1:nMuestras-1),XTest(2:nMuestras,1:nRegresores-1)];
+        X = [X1(1:end-1),XTest(2:end,1:end-1)];
    
         %Prediccion a dos pasos.
         X2 = X * parametros;
@@ -62,7 +62,7 @@ function [YPredict,Y] = predictPasosBaseline(parametros,nPasos,XTest,YTest,muYTr
         %Prediccion a 4 pasos.
         YPredict = X * parametros;
         %Nuevo vector Salidas.
-        Y = YTest(nPasos:nMuestras);
+        Y = YTest(nPasos:end);
         %Denormalizacion
         Y = desnorm(Y,muYTrain,stdYTrain);
         YPredict = desnorm(YPredict,muYTrain,stdYTrain);
@@ -73,7 +73,7 @@ function [YPredict,Y] = predictPasosBaseline(parametros,nPasos,XTest,YTest,muYTr
         %Prediccion paso 1
         X1 = XTest * parametros;
         %Nuevo vector de entrada
-        X = [X1(1:nMuestras-1),XTest(2:nMuestras,1:nRegresores-1)];
+        X = [X1(1:end-1),XTest(2:end,1:end-1)];
    
         %Prediccion a 2 pasos.
         X2 = X * parametros;
@@ -93,7 +93,7 @@ function [YPredict,Y] = predictPasosBaseline(parametros,nPasos,XTest,YTest,muYTr
         %Prediccion a 5 pasos.
         YPredict = X * parametros;
         %Nuevo vector Salidas.
-        Y = YTest(nPasos:nMuestras);
+        Y = YTest(nPasos:end);
         %Denormalizacion
         Y = desnorm(Y,muYTrain,stdYTrain);
         YPredict = desnorm(YPredict,muYTrain,stdYTrain);        
