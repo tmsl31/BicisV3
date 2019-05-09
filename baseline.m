@@ -1,4 +1,4 @@
-function [params,Y,YPredict] = baseline () 
+function [params,XTrain,XTest,YTrain,YTest,YPredict,muYTrain,stdYTrain] = baseline () 
     %Representacion lineal para el error.
     
     
@@ -62,6 +62,7 @@ function [params,Y,YPredict] = baseline ()
     
 end
 
+%% Funciones Auxiliares
 
 function [YPredict, Y, RMSEBaseline] = evaluacionBaseline(params,X,Y,muYTrain,stdYTrain)
     %Funcion que realiza la evaluacion de conjunto de un conjunto
@@ -123,17 +124,21 @@ function [] = sensibilidadRegresores(XTrain,XVal,YTrain,YVal,muYTrain,stdYTrain)
         %Re estructuracion
         X1 = XTrain(:,1:i);
         Y1 = YTrain;
+        X2 = XVal(:,1:i);
+        Y2 = YVal;
         %Obtencion de parametros
         params = (transpose(X1)*X1)^(-1)*transpose(X1)*Y1;
         %Evaluacion del modelo.
-        [~,~,RMSEBaseline] = evaluacionBaseline(params,X1,Y1,muYTrain,stdYTrain);
+        [~,~,RMSEBaseline] = evaluacionBaseline(params,X2,Y2,muYTrain,stdYTrain);
         vectorRMSE(count) = RMSEBaseline;
         count = count + 1;
     end
     
     figure()
+    hold on
     title('RMSE vs Numero de regresores.')
     ylabel('RMSE [m/s^2]')
     xlabel('Numero de regresores')
     plot(vecRegresores,vectorRMSE)
+    hold off
 end
