@@ -12,7 +12,7 @@ errent=zeros(max_clusters-1,1);% se inicializa el vector de error de entreneamie
 % clusters
 pos=[];
 for i=2:max_clusters
-[model,result]=TakagiSugeno(yent,Xent,i,[1 4 2]);% en caso de no funcionar usar [2 2 1]
+[model,result]=TakagiSugeno(yent,Xent,i,[2 2 2]);% en caso de no funcionar usar [2 2 1]
 ps1=ps1+1;
 pos=[pos,ps1];
 y1=ysim(Xent,model.a,model.b,model.g);
