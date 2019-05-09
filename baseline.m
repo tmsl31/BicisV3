@@ -102,8 +102,8 @@ function [] = estadisticosError(YTrain,YVal,YTest)
     disp('<<Estadisticas de los datos.>>')
     disp(strcat('Media:',string(mediaY)))
     disp(strcat('Desviacion estandar:',string(stdY)))
-    disp(strcat('Minimo:',string(maxY)))
-    disp(strcat('Maximo:',string(minY)))
+    disp(strcat('Minimo:',string(minY)))
+    disp(strcat('Maximo:',string(maxY)))
 end
 
 function [] = sensibilidadRegresores(XTrain,XVal,YTrain,YVal,muYTrain,stdYTrain)
