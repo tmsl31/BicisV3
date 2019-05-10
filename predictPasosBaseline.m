@@ -1,13 +1,14 @@
 function [YPredict,Y] = predictPasosBaseline(parametros,nPasos,XTest,YTest,muYTrain,stdYTrain) 
     %Realiza el calculo de las predicciones a varios pasos.
     
-    %Numero de regresores.
-    %[nMuestras,nRegresores] = size(XTest);
     %Casos
     if (nPasos==1)
        %Un paso
        YPredict =  XTest * parametros; 
        Y = YTest;
+       %Denormalizacion
+       Y = desnorm(Y,muYTrain,stdYTrain);
+       YPredict = desnorm(YPredict,muYTrain,stdYTrain);  
     elseif(nPasos == 2)
         %Dos Pasos
         %Prediccion paso 1
