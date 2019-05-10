@@ -63,7 +63,7 @@ function [] = graficarError(lowData,mediumData,highData,lowSpeed,mediumSpeed,hig
     title('Error de Aceleración Para las Tres Velocidades de Lider')
     xlabel('Número ficticio de muestras')
     ylabel('Error de aceleración [m/s^2]')
-    hold on
+    hold off
 end
 
 function [] = cortarColas(lowData,mediumData,highData,lowSpeed,mediumSpeed,highSpeed,umbral)
