@@ -34,7 +34,7 @@ function [params,XTrain,XTest,YTrain,YTest,YPredict,muYTrain,stdYTrain] = baseli
     %% Construccion del modelo lineal -> Ojo: sin termino libre.
     
     %Estructura
-    [out,in] = estructuraModelo(nRegresoresOptimo, tipoModelo);
+    [in,~,out,~] = estructuraModelo2(nRegresoresOptimo, tipoModelo);
     %Division de los conjuntos
     [XTrain,~,XTest,YTrain,~,YTest,~,~,muYTrain,stdYTrain] = divConjuntos(in,out,porcentajeTrain,porcentajeVal,norm);
     % Obtencion de los parámetros utilizando LMS. Se utiliza el conjunto de

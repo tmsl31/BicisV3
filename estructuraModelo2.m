@@ -1,5 +1,5 @@
 
-function [out,in] = estructuraModelo2(nRegresores, tipoModelo)
+function [in,inV,out,outV] = estructuraModelo2(nRegresores, tipoModelo)
     %Funcion que permita obtener la estructura de modelo, dada una cierta
     %estructura y el numero de autoregresores deseado.
     
@@ -15,7 +15,7 @@ function [out,in] = estructuraModelo2(nRegresores, tipoModelo)
     highSpeed = 5.00;
     
     %Obtener los datos de error.
-    [datosErrorLow, datosErrorMid, datosErrorHi,datosVelLow,datosVelMid, datosVelHi, datosLow,datosMid,datosHi]= separarDatos (data,lowSpeed,mediumSpeed,highSpeed)
+    [datosErrorLow, datosErrorMid, datosErrorHi,datosVelLow,datosVelMid, datosVelHi, datosLow,datosMid,datosHi]= separarDatos (data,lowSpeed,mediumSpeed,highSpeed);
         
     %Distincion entre tipos de modelos.
     if (tipoModelo == 0)
@@ -23,17 +23,18 @@ function [out,in] = estructuraModelo2(nRegresores, tipoModelo)
         disp('<<Generacion de estructura autoregresiva.>>')
         %Generacion de la estructura autoregresiva. Se utilizan datos
         %desordenados por defecto.
-        [out,in] = estructuraAutoregresiva(datosErrorLow,datosErrorMid,datosErrorHi,nRegresores,1);
+        [in,out] = estructuraAutoregresiva(datosErrorLow,datosErrorMid,datosErrorHi,nRegresores,1);
         disp('Estructura Autoregresiva')
         disp(strcat('Se utilizan inicialmente '," ",string(nRegresores)," " ,'regresores'))
+        inV = [];
+        outV = [];
     elseif (tipoModelo == 1)
-%         %Modelo autoregresivo con la velocidad de lider.
-%         disp('<<Generacion de estructura autoregresiva + Velocidad de lider..>>')
-%         %Generacion de la estructura.
-%         [out,in] = estructuraRegresoresVelocidad(lowData,mediumData,highData,lowSpeed,mediumSpeed,highSpeed,nRegresores,1);
-%         disp('Estructura con autoregresores y velocidad.')
-%         disp(strcat('Se utilizan inicialmente '," ",string(nRegresores)," " ,'Regresores inicialmente'))
-
+        %Modelo autoregresivo con la velocidad instantanea.
+        disp('<<Generacion de estructura autoregresiva + Velocidad instantanea>>')
+        %Generacion de la estructura.
+        [in,inV,out,outV] = estructuraRegresoresVelocidad(datosErrorLow, datosErrorMid, datosErrorHi,datosVelLow,datosVelMid, datosVelHi,nRegresores,1);
+        disp('Estructura con autoregresores y velocidad.')
+        disp(strcat('Se utilizan inicialmente '," ",string(nRegresores)," " ,'Regresores inicialmente'))
     else
         disp('Opcion Erronea')
     end
@@ -100,7 +101,7 @@ function [datosErrorLow, datosErrorMid, datosErrorHi,datosVelLow,...
 end
 
 %ESTRUCTURA DE LOS MODELOS.
-function [output,input] = estructuraAutoregresiva(lowData,mediumData,highData,nRegresores,shuffle)
+function [in,out] = estructuraAutoregresiva(lowData,mediumData,highData,nRegresores,shuffle)
     %Funcion que entregue la matriz de datos tal que se tenga la salida del
     %modelo y las entradas, con el número de autoregresores
     %correspondiente.
@@ -129,36 +130,75 @@ function [output,input] = estructuraAutoregresiva(lowData,mediumData,highData,nR
     end
 end
 
-function [salida,entrada] = estructuraRegresoresVelocidad(datos1,datos2,datos3,v1,v2,v3,nRegresores,shuffle)
-    %Funcion que entregue las matrices de entrada salida para las tres
-    %velocidades de lider utilizada (en m/s).
+function [in,inV,out,outV] = estructuraRegresoresVelocidad(datosErrorLow, datosErrorMid, datosErrorHi,datosVelLow,datosVelMid, datosVelHi,nRegresores,shuffle)
+    %Funcion que entregue las matrices de entrada salida considerando
+    %nRegresores tanto para velocidad como datos error. Mismo numero de
+    %regresores.
 
-    %Generar Entradas/Salidas.
-    %Low
-    [salida1,entrada1] = estructuraAutoregresiva(datos1,nRegresores,shuffle);
-    %Medium
-    [salida2, entrada2] = estructuraAutoregresiva(datos2,nRegresores,shuffle);
-    %High
-    [salida3,entrada3] = estructuraAutoregresiva(datos3,nRegresores,shuffle);
-    %Agregar velocidad como entrada.
-    %Low
-    [nFilas1,~] = size(entrada1);
-    entrada1 = [entrada1,v1*ones(nFilas1,1)];
-    %Medium
-    [nFilas2,~] = size(entrada2);
-    entrada2 = [entrada2,v2*ones(nFilas2,1)];
-    %High
-    [nFilas3,~] = size(entrada3);
-    entrada3 = [entrada3,v3*ones(nFilas3,1)];
-    %Juntar
-    salida = [salida1;salida2;salida3];
-    entrada = [entrada1;entrada2;entrada3];
+    %Entradas y salidas para los datos de velocidad.
+    [inV,outV] = estructuraVelocidad(datosVelLow,datosVelMid, datosVelHi,nRegresores,shuffle);
+    
+    %Generar entrada salida para el error.
+    data = [datosErrorLow;datosErrorMid;datosErrorHi];
+    dataV = [datosVelMid;datosVelMid;datosVelHi];
+    
+    %Numero de datos
+    [nDatos,~] = size(data);
+    %Salida del Modelo.
+    out = data(nRegresores+1:nDatos,1);
+    %Dimensiones de la salida.
+    [altoSalida,~] = size(out);
+    
+    %Entrada del modelo.
+    %Construccion de la matriz.
+    in1 = zeros(altoSalida,nRegresores);
+    in2 = zeros(altoSalida,nRegresores);
+    %Llenado
+    count = 1;
+    while count<=nRegresores
+        in1(:,count) = data(nRegresores-count+1:nDatos-count,1);
+        in2(:,count) = data(nRegresores-count+1:nDatos-count,1);
+        count = count + 1;
+    end
+    
+    %Union de los regresores.
+    in = [in1,in2];
+    %Opcion de realiza shuffle.
     if shuffle == 1
         %Juntar salidas y entradas.
-        matConjunta = [salida,entrada];
+        matConjunta = [out,in];
         %Shuffle.
-        [salida,entrada] = shuffleFilas(matConjunta);
+        [out,in] = shuffleFilas(matConjunta);
     end    
+end
+
+function [in,out] = estructuraVelocidad(datosVelLow,datosVelMid, datosVelHi,nRegresores,shuffle)
+    %Genera la estructura de prediccion autoregresiva de la velocidad.
+    
+    %Datos de velocidad
+    dataV = [datosVelLow;datosVelMid;datosVelHi];
+    %Numero de datos.
+    [nDatos,~] = size(dataV);
+    %Generar Salida
+    out = dataV(nRegresores+1:nDatos,1);
+    %Dimensiones de la salida.
+    [altoSalida,~] = size(out);
+    %Generacion de estructura de entradas
+    %Construccion de la matriz.
+    in = zeros(altoSalida,nRegresores);
+    %Llenado
+    count = 1;
+    while count<=nRegresores
+        in(:,count) = dataV(nRegresores-count+1:nDatos-count,1);
+        count = count + 1;
+    end
+        %Posibilidad de reordenar las filas de la matriz de forma random.
+    if shuffle == 1
+        %Juntar salidas y entradas.
+        matConjunta = [out,in];
+        %Shuffle.
+        [out,in] = shuffleFilas(matConjunta);
+    end
 end
 
 function [salida,entradas] = shuffleFilas(matriz)
