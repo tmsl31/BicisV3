@@ -26,7 +26,9 @@ function [params,XTrain,XTest,YTrain,YTest,YPredict,muYTrain,stdYTrain] = baseli
     %Modelo ERROR.
     [XTrain,XVal,XTest,YTrain,YVal,YTest,muXTrain,stdXTrain,muYTrain,stdYTrain] = divConjuntos(in,out,porcentajeTrain,porcentajeVal,norm);
     %Modelo VELOCIDAD.
-    [XTrainV,XValV,XTestV,YTrainV,YValV,YTestV,muXTrainV,stdXTrainV,muYTrainV,stdYTrainV] = divConjuntos(inV,outV,porcentajeTrain,porcentajeVal,norm);
+    if tipoModelo == 1
+        [XTrainV,XValV,XTestV,YTrainV,YValV,YTestV,muXTrainV,stdXTrainV,muYTrainV,stdYTrainV] = divConjuntos(inV,outV,porcentajeTrain,porcentajeVal,norm);
+    end
     %%Estadisticas.
     estadisticosError(YTrain,YVal,YTest);
     
@@ -176,22 +178,24 @@ function [] = sensibilidadRegresoresVelocidad(XTrain,XVal,YTrain,YVal,muYTrain,s
     
     %Dimensiones originales.
     [~,nRegresores] = size(XTrain);
+    nRegresores = nRegresores/2;
     %Vector que almacene los valores de RMSE
     vectorRMSE = zeros(nRegresores,1);
     
     %Ciclo de eliminacion y evaluacion.
     count = 1;
     %Vector de regresores.
-    vecRegresores = nRegresosres:-1:1;
+    vecRegresores = nRegresores:-1:1;
     %Loop
     for i = vecRegresores
+        disp(i)
         X1 = XTrain;
         %Eliminacion de entradas entrenamiento.
-        X1(:,[nRegresores:-1:i,(nRegresores + nRegresores:-1:i)]) = [];
+        X1(:,[nRegresores:-1:i,nRegresores + (nRegresores:-1:i)]) = [];
         Y1 = YTrain;
         %Eliminacion de entradas validacion
         X2 = XVal;
-        X2(:,[nRegresores:-1:i,(nRegresores + nRegresores:-1:i)]) = [];
+        X2(:,[nRegresores:-1:i,(nRegresores + nRegresores:-1:i+nRegresores)]) = [];
         Y2 = YVal;
         %Obtencion de parametros
         params = (transpose(X1)*X1)^(-1)*transpose(X1)*Y1;

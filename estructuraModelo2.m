@@ -16,7 +16,9 @@ function [in,inV,out,outV] = estructuraModelo2(nRegresores, tipoModelo)
     
     %Obtener los datos de error.
     [datosErrorLow, datosErrorMid, datosErrorHi,datosVelLow,datosVelMid, datosVelHi, datosLow,datosMid,datosHi]= separarDatos (data,lowSpeed,mediumSpeed,highSpeed);
-        
+    disp(size(datosVelLow))
+    disp(size(datosVelMid))
+    disp(size(datosVelHi))
     %Distincion entre tipos de modelos.
     if (tipoModelo == 0)
         %Caso unicamente autoregresivo.
@@ -83,7 +85,7 @@ function [datosErrorLow, datosErrorMid, datosErrorHi,datosVelLow,...
     inicioLow = find(data(:,5) == lowSpeed,1);
     inicioMedium = find(data(:,5) == mediumSpeed,1);
     inicioHigh = find(data(:,5) == highSpeed,1);
-    
+
     %Datos
     datosLow = data(inicioLow:end,:);
     datosMid = data(inicioMedium:inicioLow-1,:);
@@ -111,22 +113,22 @@ function [in,out] = estructuraAutoregresiva(lowData,mediumData,highData,nRegreso
     %Dimensiones
     [nDatos,~] = size(data);
     %Salidas
-    output = data(nRegresores+1:nDatos, 1);
-    [altoSalida,~] = size(output);
+    out = data(nRegresores+1:nDatos, 1);
+    [altoSalida,~] = size(out);
     %Construccion de la matriz.
-    input = zeros(altoSalida,nRegresores);
+    in = zeros(altoSalida,nRegresores);
     %Llenado
     count = 1;
     while count<=nRegresores
-        input(:,count) = data(nRegresores-count+1:nDatos-count,1);
+        in(:,count) = data(nRegresores-count+1:nDatos-count,1);
         count = count + 1;
     end
     %Posibilidad de reordenar las filas de la matriz de forma random.
     if shuffle == 1
         %Juntar salidas y entradas.
-        matConjunta = [output,input];
+        matConjunta = [out,in];
         %Shuffle.
-        [output,input] = shuffleFilas(matConjunta);
+        [out,in] = shuffleFilas(matConjunta);
     end
 end
 
@@ -140,8 +142,9 @@ function [in,inV,out,outV] = estructuraRegresoresVelocidad(datosErrorLow, datosE
     
     %Generar entrada salida para el error.
     data = [datosErrorLow;datosErrorMid;datosErrorHi];
-    dataV = [datosVelMid;datosVelMid;datosVelHi];
-    
+    dataV = [datosVelLow;datosVelMid;datosVelHi];
+    disp(size(data))
+    disp(size(dataV))
     %Numero de datos
     [nDatos,~] = size(data);
     %Salida del Modelo.
@@ -157,7 +160,7 @@ function [in,inV,out,outV] = estructuraRegresoresVelocidad(datosErrorLow, datosE
     count = 1;
     while count<=nRegresores
         in1(:,count) = data(nRegresores-count+1:nDatos-count,1);
-        in2(:,count) = data(nRegresores-count+1:nDatos-count,1);
+        in2(:,count) = dataV(nRegresores-count+1:nDatos-count,1);
         count = count + 1;
     end
     
