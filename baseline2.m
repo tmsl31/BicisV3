@@ -1,4 +1,4 @@
-function [params,XTrain,XTest,YTrain,YTest,YPredict,muYTrain,stdYTrain] = baselineAutoregresivo2 () 
+function [params,XTrain,XTest,YTrain,YTest,YPredict,muYTrain,stdYTrain] = baseline2 () 
     %Representacion lineal para el error.
     
     
