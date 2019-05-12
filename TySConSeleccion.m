@@ -1,4 +1,4 @@
-function [model,result]  = TySConSeleccion(XTrain,XVal,XTest,YTrain,YVal,YTest,maximoReglas,nRegresores)
+function [model,XTrain2,XVal2,XTest2]  = TySConSeleccion(XTrain,XVal,XTest,YTrain,YVal,YTest,maximoReglas,nRegresores)
     %Modelo de Takagi Sugeno con la seleccion de caracteristicas y numero
     %de reglas utilizando el clustering y analisis de sensibilidad.
     

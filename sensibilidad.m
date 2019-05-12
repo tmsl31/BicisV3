@@ -12,7 +12,7 @@ end
 yent=(yent-mean(yent))./std(yent);
 %se genera el modelo takagi sugeno con el set de entradas cadidatas
 %keyboard
-[model, ~]=TakagiSugeno(yent,Xent,reglas,[1 4 2]);
+[model, ~]=TakagiSugeno(yent,Xent,reglas,[2 2 1]);
 % se definen los parametros del modelo obtenido   
 a=model.a;% rxi
 b=model.b; %rxi

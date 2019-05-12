@@ -84,7 +84,7 @@ function [] = graficarError(data,lowSpeed,mediumSpeed,highSpeed)
     ylabel('Error de Actuacion [m^/s^2]')
     yyaxis right
     ylabel('velocidad relativa [m/s]')
-    
+    ylim([0 4])
     %Velocidad Media
     figure()
     yyaxis left

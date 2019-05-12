@@ -16,9 +16,6 @@ function [in,inV,out,outV] = estructuraModelo2(nRegresores, tipoModelo)
     
     %Obtener los datos de error.
     [datosErrorLow, datosErrorMid, datosErrorHi,datosVelLow,datosVelMid, datosVelHi, datosLow,datosMid,datosHi]= separarDatos (data,lowSpeed,mediumSpeed,highSpeed);
-    disp(size(datosVelLow))
-    disp(size(datosVelMid))
-    disp(size(datosVelHi))
     %Distincion entre tipos de modelos.
     if (tipoModelo == 0)
         %Caso unicamente autoregresivo.
@@ -71,7 +68,7 @@ function [datosConError] = agregarErrorActuacion(data)
     datosConError(:,6) = data(:,3);
     datosConError(:,7) = vectorError;
     disp('Estructura')
-    disp('None, Orden, CACC, Acceleration, LeaderSpeed, CACC, HumanError.')
+    disp('None, Orden, Instant Speed, Acceleration, LeaderSpeed, CACC, HumanError.')
 end
 
 function [datosErrorLow, datosErrorMid, datosErrorHi,datosVelLow,...

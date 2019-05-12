@@ -195,7 +195,7 @@ if(opcion(1)==1)
 end
 
 if(opcion(1)==2)
-[g, P, h]=taksug1_n(y,Z,a,b,1);
+[g, P, h]=taksug1_n(y,Z,a,b,4);
 [g]=taksug3(y,Z,a,b);%Identification of each rule separately
 end
 

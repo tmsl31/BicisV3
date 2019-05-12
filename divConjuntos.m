@@ -19,6 +19,7 @@ function [XTrain,XVal,XTest,YTrain,YVal,YTest,muXTrain,stdXTrain,muYTrain,stdYTr
     %Test
     XTest = entradas(nElementosTrain + nElementosVal + 1:end,:);
     YTest = salida(nElementosTrain + nElementosVal + 1:end,1);
+    %Valores si no se realiza la normalizacion.
     muXTrain = 0; stdXTrain = 0; muYTrain = 0; stdYTrain = 0;
     %Normalizacion
     if norm==1
