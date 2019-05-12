@@ -25,10 +25,6 @@ function [params,XTrain,XTest,YTrain,YTest,YPredict,muYTrain,stdYTrain] = baseli
     %Division de conjuntos
     %Modelo ERROR.
     [XTrain,XVal,XTest,YTrain,YVal,YTest,muXTrain,stdXTrain,muYTrain,stdYTrain] = divConjuntos(in,out,porcentajeTrain,porcentajeVal,norm);
-    %Modelo VELOCIDAD.
-    if tipoModelo == 1
-        [XTrainV,XValV,XTestV,YTrainV,YValV,YTestV,muXTrainV,stdXTrainV,muYTrainV,stdYTrainV] = divConjuntos(inV,outV,porcentajeTrain,porcentajeVal,norm);
-    end
     %%Estadisticas.
     estadisticosError(YTrain,YVal,YTest);
     
@@ -38,10 +34,8 @@ function [params,XTrain,XTest,YTrain,YTest,YPredict,muYTrain,stdYTrain] = baseli
     
     %% Construccion del modelo lineal -> Ojo: sin termino libre.
     
-    %Estructura
-    [in,inV,out,outV] = estructuraModelo2(nRegresoresOptimo, tipoModelo);
-    %Division de los conjuntos
-    [XTrain,XVal,XTest,YTrain,YVal,YTest,muXTrain,stdXTrain,muYTrain,stdYTrain] = divConjuntos(in,out,porcentajeTrain,porcentajeVal,norm);
+    %Seleccion de caracteristicas.
+    [XTrain,~,XTest] = seleccionCaracteristicas(XTrain,XVal,XTest,nRegresoresOptimo,tipoModelo);
     % Obtencion de los parámetros utilizando LMS. Se utiliza el conjunto de
     % entrenamiento.
     params = (transpose(XTrain)*XTrain)^(-1)*transpose(XTrain)*YTrain;
@@ -61,7 +55,7 @@ function [params,XTrain,XTest,YTrain,YTest,YPredict,muYTrain,stdYTrain] = baseli
     xlabel('Numero de muestra')
     plot(Y,'-r')
     plot(YPredict,'-b')
-    legend('Real','Prediction')
+    legend('Real','Prediccion')
     hold off
     
 end
@@ -188,7 +182,6 @@ function [] = sensibilidadRegresoresVelocidad(XTrain,XVal,YTrain,YVal,muYTrain,s
     vecRegresores = nRegresores:-1:1;
     %Loop
     for i = vecRegresores
-        disp(i)
         X1 = XTrain;
         %Eliminacion de entradas entrenamiento.
         X1(:,[nRegresores:-1:i,nRegresores + (nRegresores:-1:i)]) = [];
@@ -211,9 +204,39 @@ function [] = sensibilidadRegresoresVelocidad(XTrain,XVal,YTrain,YVal,muYTrain,s
     title('RMSE vs Numero de regresores.')
     ylabel('RMSE [m/s^2]')
     xlabel('Numero de regresores')
-    plot(vecRegresores,vectorRMSE)
+    plot(vecRegresores,vectorRMSE,'-+')
     hold off
-    
-    
 end
 
+function [XT,XV,XTe] = seleccionCaracteristicas(XTrain,XVal,XTest,nRegresores,tipoModelo)
+    %Funcion que elimine las caracteristicas que no se consideraron
+    %relevantes.
+    
+    %Casos
+    if (tipoModelo == 1)
+        %Caso Autoregresivo
+        %Asignacion.
+        XT = XTrain;
+        XV = XVal;
+        XTe = XTest;
+        %Corte
+        XT(:,nRegresores+1:end) = [];
+        XV(:,nRegresores+1:end) = [];
+        XTe(:,nRegresores+1:end) = [];
+    else
+        %Caso Autoregresivo
+        %Asignacion.
+        XT = XTrain;
+        XV = XVal;
+        XTe = XTest;
+        %Numero de regresores original.
+        [~,nRegOriginal] = size(XTest);
+        nRegresoresError = nRegOriginal/2;
+        %Corte
+        XT(:,[nRegresores+1:nRegresoresError,nRegresoresError + nRegresores + 1:nRegOriginal]) = [];
+        XV(:,[nRegresores+1:nRegresoresError,nRegresoresError + nRegresores + 1:nRegOriginal]) = [];
+        XTe(:,[nRegresores+1:nRegresoresError,nRegresoresError + nRegresores + 1:nRegOriginal]) = [];
+        
+    end
+
+end
