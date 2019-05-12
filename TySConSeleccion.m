@@ -1,30 +1,73 @@
-function [model,XTrain2,XVal2,XTest2]  = TySConSeleccion(XTrain,XVal,XTest,YTrain,YVal,YTest,maximoReglas,nRegresores)
+function [model,XTrain2,XVal2,XTest2]  = TySConSeleccion(XTrain,XVal,XTest,YTrain,YVal,YTest,maximoReglas,nRegresores,tipoModelo)
     %Modelo de Takagi Sugeno con la seleccion de caracteristicas y numero
     %de reglas utilizando el clustering y analisis de sensibilidad.
     
-    %Vector de indices a mantener en entrada.
-    indicesMantener = input('Vector de indices a mantener en entrada:');
+    %Diferenciacion de indices de acuerdo al tipo de modelo a utilizar.
+    if (tipoModelo == 0)
+        %Vector de indices a mantener en entrada.
+        indicesMantener = input('Vector de indices a mantener en entrada:');
+    elseif(tipoModelo == 1)
+        %Numero optimo de regresores a utilizar.
+        nOptimoRegresores = input('Numero optimo de regresores modelo con velocidad');
+    else
+        disp('Error en TySConSeleccion')
+    end
+    
     %Eliminacion de regresores.
-    [XTrain2,XVal2,XTest2] = seleccionCaracteristicas(XTrain,XVal,XTest,indicesMantener);
+    if (tipoModelo == 0)
+        %Caso de autoregresivo.
+        [XTrain2,XVal2,XTest2] = seleccionCaracteristicas(XTrain,XVal,XTest,indicesMantener,tipoModelo);
+    elseif(tipoModelo == 1)
+        %Caso de modelo con velocidad
+        [XTrain2,XVal2,XTest2] = seleccionCaracteristicas(XTrain,XVal,XTest,nOptimoRegresores,tipoModelo);
+    else
+        dips('Error en TySConSeleccion')
+    end
+    
     %Nueva prueba de numero de clusters con el numero de regresores utilizados.
-    [eTrainCluster2,eValCluster2] = clusters_optimo(YVal,YTrain,XVal2,XTrain2,maximoReglas);
+    [~,~] = clusters_optimo(YVal,YTrain,XVal2,XTrain2,maximoReglas);
     %Numero de reglas a utilizar
     optimoReglas2 = input('Numero de reglas a utilizar: ');
     %Entrenamiento del modelo de Takagi-Sugeno con el numero de reglas
     %determinado.
-    [model,result] = TakagiSugeno(YTrain,XTrain2,optimoReglas2,[2 2 2]);
+    [model,~] = TakagiSugeno(YTrain,XTrain2,optimoReglas2,[2 4 1]);
     %Vector de regresores utilizados.
-    e = NaN * ones(1,nRegresores);
-    e(indicesMantener) = 1;
-    model.e = e;
-    
+    if (tipoModelo == 0)
+        %Modelo de autoregresores.
+        e = NaN * ones(1,nRegresores);
+        e(indicesMantener) = 1;
+        model.e = e;
+    else
+        %Modelo con velocidad.
+        e = NaN * ones(1,nRegresores);
+        e(1,1:nOptimoRegresores) = 1;
+        model.e = e;
+    end
 end
 
-function [XTrain,XVal,XTest] = seleccionCaracteristicas(XTrain,XVal,XTest,indicesEntradas)
+function [XT,XV,XTe] = seleccionCaracteristicas(XTrain,XVal,XTest,indicesEntradas,tipoModelo)
     %Funcion que dado un vector de regresores a conservar modifica las
     %variables de entrada del modelo.
- 
-    XTrain = XTrain(:,indicesEntradas);
-    XVal = XVal(:,indicesEntradas);
-    XTest = XTest(:,indicesEntradas);
+    
+    %Casos
+    if (tipoModelo == 0)
+        XT = XTrain(:,indicesEntradas);
+        XV = XVal(:,indicesEntradas);
+        XTe = XTest(:,indicesEntradas);
+    elseif(tipoModelo == 1)
+        %Asignacion
+        XT = XTrain;
+        XV = XVal;
+        XTe = XTest;
+        %NumeroAutoregresoresOriginal
+        [~,nAutoOrig] = size(XTest);
+        %Numero de autoregresores por variable
+        nAutoCU = nAutoOrig/2;
+        %Eliminacion
+        XT(:,[indicesEntradas + 1:nAutoCU,nAutoCU + indicesEntradas + 1:nAutoOrig]) = [];
+        XV(:,[indicesEntradas + 1:nAutoCU,nAutoCU + indicesEntradas + 1:nAutoOrig]) = [];
+        XTe(:,[indicesEntradas + 1:nAutoCU,nAutoCU + indicesEntradas + 1:nAutoOrig]) = [];
+    else
+        disp('Error Seleccion de caracteristicas')
+    end
 end

@@ -1,4 +1,4 @@
-function [XTrain,XVal,XTest,YTrain,YVal,YTest,muXTrain,stdXTrain,muYTrain,stdYTrain] = divConjuntos(entradas,salida,porcentajeTrain,porcentajeVal,norm)
+function [XTrain,XVal,XTest,YTrain,YVal,YTest,muXTrain,stdXTrain,muYTrain,stdYTrain] = divConjuntos(in,out,porcentajeTrain,porcentajeVal,norm)
     %Funcion que dados los porcentajes de entrenamiento, validación y test,
     %realiza la division en estos conjuntos.
     
@@ -6,21 +6,21 @@ function [XTrain,XVal,XTest,YTrain,YVal,YTest,muXTrain,stdXTrain,muYTrain,stdYTr
     razonTrain = porcentajeTrain/100;
     razonVal = porcentajeVal/100;
     %Total de datos
-    totalDatos = length(salida);
+    totalDatos = length(out);
     %Division
     %Train
     nElementosTrain = floor(totalDatos*razonTrain);
-    XTrain = entradas(1:nElementosTrain,:);
-    YTrain = salida(1:nElementosTrain,1);
+    XTrain = in(1:nElementosTrain,:);
+    YTrain = out(1:nElementosTrain,1);
     %Validacion
     nElementosVal = floor(totalDatos*razonVal);
-    XVal = entradas(nElementosTrain+1:nElementosTrain + nElementosVal,:);
-    YVal = salida(nElementosTrain+1:nElementosTrain + nElementosVal,1);
+    XVal = in(nElementosTrain+1:nElementosTrain + nElementosVal,:);
+    YVal = out(nElementosTrain+1:nElementosTrain + nElementosVal,1);
     %Test
-    XTest = entradas(nElementosTrain + nElementosVal + 1:end,:);
-    YTest = salida(nElementosTrain + nElementosVal + 1:end,1);
+    XTest = in(nElementosTrain + nElementosVal + 1:end,:);
+    YTest = out(nElementosTrain + nElementosVal + 1:end,1);
     %Valores si no se realiza la normalizacion.
-    muXTrain = 0; stdXTrain = 0; muYTrain = 0; stdYTrain = 0;
+    muXTrain = []; stdXTrain = []; muYTrain = []; stdYTrain = [];
     %Normalizacion
     if norm==1
         [XTrain,XVal,XTest,YTrain,YVal,YTest,muXTrain,stdXTrain,muYTrain,stdYTrain] = normalize(XTrain,XVal,XTest,YTrain,YVal,YTest);

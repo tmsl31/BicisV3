@@ -17,7 +17,7 @@ function YPredict = evaluacionTS(X,model)
     %Numero de parametros de consecuencia.
     [~,nParametros] = size(g);
     %Tipo Modelo
-    tipoModelo = nParametros-nEntradas;
+    linealidad = nParametros-nEntradas;
     %Vector que almacene las predicciones.
     YPredict = zeros(nMuestras,1);
     
@@ -42,10 +42,10 @@ function YPredict = evaluacionTS(X,model)
         Wn = activacionNorm(W);
         
         %Evaluacion de las consecuencias.
-        if (tipoModelo == 1) 
+        if (linealidad == 1) 
             %Caso en que el modelo es afin. Con bias.
             yr=g*[1 ;X(muestra,:)'];           
-        elseif(tipoModelo == 0)
+        elseif(linealidad == 0)
             %Caso de modelo lineal.
             yr=g*X(muestra,:)';
         else

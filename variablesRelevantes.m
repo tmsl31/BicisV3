@@ -80,7 +80,6 @@ function [vecErrorVal,indicesEliminacion] = variablesRelevantesVelocidad(XTrain,
     %Loop.
     count = 1;
     for num = vectorNumeroRegresores
-        disp(num)
         %Entradas.
         %Entrenamiento.
         XTrain1 = XTrain(:,1:num);
