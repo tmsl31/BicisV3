@@ -1,12 +1,12 @@
-function [YPredict,Y] = prediccionVariosPasosTS(nPasos,XTest,YTest,modeloError,M)
+function [YPredict,Y] = prediccionVariosPasosTS(nPasos,XTest,YTest,modeloError,modeloVel,tipoModelo)
     %Funcion que realiza la prediccion a varios pasos utilizando el modelo
     %de Takagi Sugeno ingresado.
     
-    %Extraccion de variables.
-    modeloError = M.paramsError;
-    modeloVel = M.paramsVel;
-    
-    
+%     %Extraccion de variables.
+%     modeloError = M.paramsError;
+%     modeloVel = M.paramsVel;
+%     
+%     
     
     %Casos
     if (tipoModelo == 0)
@@ -131,16 +131,16 @@ function [YPredict,Y] = variosPasosAutoregresivo(nPasos,XTest,YTest,model)
         disp('NO PROGRAMADO PARA MAS PASOS')
     end
     
-    %Plot
-    figure()
-    hold on
-    plot(Y)
-    plot(YPredict)
-    title('Comparación predicción y modelo real. Takagi&Sugeno autoregresivo')
-    xlabel('Numero de muestra')
-    ylabel('Error de Aceleración [m/s^2]')
-    legend('Real','Predicción')
-    hold off
+%     %Plot
+%     figure()
+%     hold on
+%     plot(Y)
+%     plot(YPredict)
+%     title('Comparación predicción y modelo real. Takagi&Sugeno autoregresivo')
+%     xlabel('Numero de muestra')
+%     ylabel('Error de Aceleración [m/s^2]')
+%     legend('Real','Predicción')
+%     hold off
 end
 
 function [YPredict,Y] = variosPasosVelocidad(nPasos,XTest,YTest,modeloError,modeloVel)

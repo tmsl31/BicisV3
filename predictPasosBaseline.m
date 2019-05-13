@@ -127,7 +127,7 @@ function [YPredict,Y] = predictAuto(parametros,nPasos,XTest,YTest,muYTrain,stdYT
     end
 end
 
-function [YPredict,Y] = predictVel(parametrosError,parametrosVel,nPasos,XTest,YTest,muYTrain,stdYTrain)
+function [YPredict,Y] = predictVel(parametrosError,modeloVel,nPasos,XTest,YTest,muYTrain,stdYTrain)
     %Funcion que realiza la prediccion a varios pasos utilizando modelo
     %lineal con la velocidad.
     
@@ -148,11 +148,11 @@ function [YPredict,Y] = predictVel(parametrosError,parametrosVel,nPasos,XTest,YT
         %Dos Pasos
         %Prediccion paso 1
         X1 = XTest * parametrosError;
-        V1 = prediccionVel(parametrosVel,XTest);
+        V1 = prediccionVel(modeloVel,XTest);
         %Nuevo vector de entrada.
         %[predicE,E,predictV,V]
         X = [X1(1:end-1),XTest(2:end,1:nRegresores-1),...
-            V1(1:end-1),XTest(2:end,nRegresores:totalComponentes-1)];
+            V1(1:end-1),XTest(2:end,nRegresores+1:totalComponentes-1)];
         %Nuevo vector Salidas.
         Y = YTest(2:end);
         %Predicciones
@@ -165,11 +165,11 @@ function [YPredict,Y] = predictVel(parametrosError,parametrosVel,nPasos,XTest,YT
         %Tres Pasos
         %Prediccion paso 1
         X1 = XTest * parametrosError;
-        V1 = prediccionVel(parametrosVel,XTest);
+        V1 = prediccionVel(modeloVel,XTest);
         %Nuevo vector de entrada.
         %[predicE,E,predictV,V]
         X = [X1(1:end-1),XTest(2:end,1:nRegresores-1),...
-            V1(1:end-1),XTest(2:end,nRegresores:totalComponentes-1)];
+            V1(1:end-1),XTest(2:end,nRegresores+1:totalComponentes-1)];
         
         
         %Prediccion a 2 pasos.
@@ -178,10 +178,10 @@ function [YPredict,Y] = predictVel(parametrosError,parametrosVel,nPasos,XTest,YT
         %Nuevo vector de entrada.
         %[predicE,E,predictV,V]
         X = [X2(1:end-1),X(2:end,1:nRegresores-1),...
-            V2(1:end-1),X(2:end,nRegresores:totalComponentes-1)];
+            V2(1:end-1),X(2:end,nRegresores+1:totalComponentes-1)];
         
         %Nuevo vector Salidas.
-        Y = YTest(2:end);
+        Y = YTest(3:end);
         %Predicciones 3.
         YPredict = X * parametrosError;
         %Denormalizacion
@@ -192,11 +192,11 @@ function [YPredict,Y] = predictVel(parametrosError,parametrosVel,nPasos,XTest,YT
         %Tres Pasos
         %Prediccion paso 1
         X1 = XTest * parametrosError;
-        V1 = prediccionVel(parametrosVel,XTest);
+        V1 = prediccionVel(modeloVel,XTest);
         %Nuevo vector de entrada.
         %[predicE,E,predictV,V]
         X = [X1(1:end-1),XTest(2:end,1:nRegresores-1),...
-            V1(1:end-1),XTest(2:end,nRegresores:totalComponentes-1)];
+            V1(1:end-1),XTest(2:end,nRegresores+1:totalComponentes-1)];
         
         
         %Prediccion a 2 pasos.
@@ -205,7 +205,7 @@ function [YPredict,Y] = predictVel(parametrosError,parametrosVel,nPasos,XTest,YT
         %Nuevo vector de entrada.
         %[predicE,E,predictV,V]
         X = [X2(1:end-1),X(2:end,1:nRegresores-1),...
-            V2(1:end-1),X(2:end,nRegresores:totalComponentes-1)];
+            V2(1:end-1),X(2:end,nRegresores+1:totalComponentes-1)];
         
         %Prediccion a 3 pasos.
         X3 = X * parametrosError;
@@ -213,10 +213,10 @@ function [YPredict,Y] = predictVel(parametrosError,parametrosVel,nPasos,XTest,YT
         %Nuevo vector de entrada.
         %[predicE,E,predictV,V]
         X = [X3(1:end-1),X(2:end,1:nRegresores-1),...
-            V3(1:end-1),X(2:end,nRegresores:totalComponentes-1)];
+            V3(1:end-1),X(2:end,nRegresores+1:totalComponentes-1)];
         
         %Nuevo vector Salidas.
-        Y = YTest(2:end);
+        Y = YTest(4:end);
         %Predicciones 4.
         YPredict = X * parametrosError;
         %Denormalizacion
@@ -227,11 +227,11 @@ function [YPredict,Y] = predictVel(parametrosError,parametrosVel,nPasos,XTest,YT
         %Cuatro Pasos
         %Prediccion paso 1
         X1 = XTest * parametrosError;
-        V1 = prediccionVel(parametrosVel,XTest);
+        V1 = prediccionVel(modeloVel,XTest);
         %Nuevo vector de entrada.
         %[predicE,E,predictV,V]
         X = [X1(1:end-1),XTest(2:end,1:nRegresores-1),...
-            V1(1:end-1),XTest(2:end,nRegresores:totalComponentes-1)];
+            V1(1:end-1),XTest(2:end,nRegresores+1:totalComponentes-1)];
         
         
         %Prediccion a 2 pasos.
@@ -240,7 +240,7 @@ function [YPredict,Y] = predictVel(parametrosError,parametrosVel,nPasos,XTest,YT
         %Nuevo vector de entrada.
         %[predicE,E,predictV,V]
         X = [X2(1:end-1),X(2:end,1:nRegresores-1),...
-            V2(1:end-1),X(2:end,nRegresores:totalComponentes-1)];
+            V2(1:end-1),X(2:end,nRegresores+1:totalComponentes-1)];
         
         %Prediccion a 3 pasos.
         X3 = X * parametrosError;
@@ -248,7 +248,7 @@ function [YPredict,Y] = predictVel(parametrosError,parametrosVel,nPasos,XTest,YT
         %Nuevo vector de entrada.
         %[predicE,E,predictV,V]
         X = [X3(1:end-1),X(2:end,1:nRegresores-1),...
-            V3(1:end-1),X(2:end,nRegresores:totalComponentes-1)];
+            V3(1:end-1),X(2:end,nRegresores+1:totalComponentes-1)];
 
         %Prediccion a 3 pasos.
         X4 = X * parametrosError;
@@ -256,10 +256,10 @@ function [YPredict,Y] = predictVel(parametrosError,parametrosVel,nPasos,XTest,YT
         %Nuevo vector de entrada.
         %[predicE,E,predictV,V]
         X = [X4(1:end-1),X(2:end,1:nRegresores-1),...
-            V4(1:end-1),X(2:end,nRegresores:totalComponentes-1)];        
+            V4(1:end-1),X(2:end,nRegresores+1:totalComponentes-1)];        
         
         %Nuevo vector Salidas.
-        Y = YTest(2:end);
+        Y = YTest(5:end);
         %Predicciones 4.
         YPredict = X * parametrosError;
         %Denormalizacion
@@ -284,6 +284,4 @@ function [VPredict] = prediccionVel(modeloVel,XTest)
     matVelocidad = XTest(:,nRegresores+1:totalRegresores);
     %Predicciones.
     VPredict = matVelocidad * params;
-    %Se mantiene normalizado puesto que de esta forma se utiliza en la
-    %formulacion de Takagi Sugeno.
 end
