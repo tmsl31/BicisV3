@@ -29,7 +29,7 @@ function [params,XTrain,XTest,YTrain,YTest,YPredict,muYTrain,stdYTrain] = baseli
     estadisticosError(YTrain,YVal,YTest);
     
     %% ANALISIS DE SENSIBILIDAD
-    analisisSensibilidad(XTrain,XVal,YTrain,YVal,muYTrain,stdYTrain,tipoModelo)
+    analisisSensibilidad(XTrain,XVal,YTrain,YVal,muYTrain,stdYTrain,tipoModelo);
     nRegresoresOptimo = input('Numero Optimo de Regresores: ');
     
     %% Construccion del modelo lineal -> Ojo: sin termino libre.
@@ -213,7 +213,7 @@ function [XT,XV,XTe] = seleccionCaracteristicas(XTrain,XVal,XTest,nRegresores,ti
     %relevantes.
     
     %Casos
-    if (tipoModelo == 1)
+    if (tipoModelo == 0)
         %Caso Autoregresivo
         %Asignacion.
         XT = XTrain;

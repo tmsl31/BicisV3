@@ -1,5 +1,6 @@
 function [YPredict,Y] = predictPasosBaseline(parametros,nPasos,XTest,YTest,muYTrain,stdYTrain) 
-    %Realiza el calculo de las predicciones a varios pasos.
+    %Realiza el calculo de las predicciones a varios pasos Modelo
+    %Autoregresivo.    
     
     %Casos
     if (nPasos==1)
