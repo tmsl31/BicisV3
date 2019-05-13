@@ -1,7 +1,6 @@
 function [YPredict,Y] = predictPasosBaseline(M,nPasos,XTest,YTest,tipoModelo) 
     %Funcion que realiza el calculo de predicciones a varios pasos para dos
     %tipos de modelos distintos.
-    disp(nPasos)
     if(tipoModelo == 0)
         %Caso de modelo auto regresivo.
         paramsError = M.paramsError;
