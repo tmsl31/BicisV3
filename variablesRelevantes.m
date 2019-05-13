@@ -68,7 +68,8 @@ function [vecErrorVal,indicesEliminacion] = variablesRelevantesVelocidad(XTrain,
     % Puede no ser optimo.
     
     %Numero de regresores original.
-    [~,nRegresores] = size(XTrain);
+    [~,entradas] = size(XTrain);
+    nRegresores = entradas/2;
     %Vector de errores de Test
     vecErrorVal = zeros(1,nRegresores);
     %Vector para los indices de eliminacion

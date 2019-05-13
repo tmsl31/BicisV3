@@ -124,6 +124,17 @@ function [YPredict,Y] = variosPasosAutoregresivo(nPasos,XTest,YTest,model)
     else
         disp('NO PROGRAMADO PARA MAS PASOS')
     end
+    
+    %Plot
+    figure()
+    hold on
+    plot(Y)
+    plot(YPredict)
+    title('Comparación predicción y modelo real. Takagi&Sugeno autoregresivo')
+    xlabel('Numero de muestra')
+    ylabel('Error de Aceleración [m/s^2]')
+    legend('Real','Predicción')
+    hold off
 end
 
 function [YPredict,Y] = variosPasosVelocidad(nPasos,XTest,YTest,modeloError,modeloVel)
@@ -270,6 +281,17 @@ function [YPredict,Y] = variosPasosVelocidad(nPasos,XTest,YTest,modeloError,mode
     else
         disp('Numero de pasos no implementado')
     end
+    
+    %Plot
+    figure()
+    hold on
+    plot(Y)
+    plot(YPredict)
+    title('Comparación predicción y modelo real. Takagi&Sugeno autoregresores y velocidad')
+    xlabel('Numero de muestra')
+    ylabel('Error de Aceleración [m/s^2]')
+    legend('Real','Predicción')
+    hold off
 end
 
 function [VPredict] = prediccionVel(modeloVel,XTest)

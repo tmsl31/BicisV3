@@ -235,8 +235,7 @@ function [XT,XV,XTe] = seleccionCaracteristicas(XTrain,XVal,XTest,nRegresores,ti
         %Corte
         XT(:,[nRegresores+1:nRegresoresError,nRegresoresError + nRegresores + 1:nRegOriginal]) = [];
         XV(:,[nRegresores+1:nRegresoresError,nRegresoresError + nRegresores + 1:nRegOriginal]) = [];
-        XTe(:,[nRegresores+1:nRegresoresError,nRegresoresError + nRegresores + 1:nRegOriginal]) = [];
-        
+        XTe(:,[nRegresores+1:nRegresoresError,nRegresoresError + nRegresores + 1:nRegOriginal]) = [];  
     end
 
 end

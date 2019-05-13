@@ -55,7 +55,7 @@ function [MError,MVel,XTrain2,XVal2,XTest2,YTrain,YVal,YTest] = entrenamiento()
     %% Caso en que se requiera un modelo lineal para la velociadad
     if (tipoModelo == 1)
         %Construccion del modelo lineal.
-        [params,muYTrainVel,stdYTrainVel] = modeloLinealVelocidad(Xtrain2,muXTrain,stdXTrain);
+        [params,muYTrainVel,stdYTrainVel] = modeloLinealVelocidad(XTrain2,muXTrain,stdXTrain);
         %Modelo de velocidad
         MVel.params = params;
         MVel.mu = muYTrainVel;

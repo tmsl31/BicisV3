@@ -68,3 +68,13 @@ function [XTrain,YTrain,muYTrain,stdYTrain] = normalize(XTrain,YTrain)
     YTrain = (YTrain - muYTrain)./stdYTrain;
 
 end
+
+function [salida,entradas] = shuffleFilas(matriz)
+    %Funcion que desordene las filas.
+    
+    %Shuffle.
+    randMatriz = matriz(randperm(size(matriz, 1)), :);
+    %Division en entradas y salidas.
+    salida = randMatriz(:,1);
+    entradas = randMatriz(:,2:end);
+end
