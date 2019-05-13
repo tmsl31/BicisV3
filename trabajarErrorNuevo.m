@@ -79,11 +79,11 @@ function [] = graficarError(data,lowSpeed,mediumSpeed,highSpeed)
     yyaxis right
     plot(vecLow,datosVelLow);
     yyaxis left
-    title(strcat('Velocidad relativa y error humano. Velocidad Líder: ',string(lowSpeed)))
+    title(strcat('velocidad instantánea y error humano. Velocidad Líder: ',string(lowSpeed)))
     xlabel('Número de muestra')
     ylabel('Error de Actuacion [m^/s^2]')
     yyaxis right
-    ylabel('velocidad relativa [m/s]')
+    ylabel('velocidad instantánea [m/s]')
     ylim([0 4])
     %Velocidad Media
     figure()
@@ -92,11 +92,11 @@ function [] = graficarError(data,lowSpeed,mediumSpeed,highSpeed)
     yyaxis right
     plot(vecMedium,datosVelMid)
     yyaxis left
-    title(strcat('Velocidad relativa y error humano. Velocidad Líder: ',string(highSpeed)))
+    title(strcat('velocidad instantánea y error humano. Velocidad Líder: ',string(mediumSpeed)))
     xlabel('Número de muestra')
     ylabel('Error de Actuacion [m^/s^2')  
     yyaxis right
-    ylabel('velocidad relativa [m/s]')    
+    ylabel('velocidad instantánea [m/s]')    
     
     %Alta Velocidad.
     figure()
@@ -105,11 +105,11 @@ function [] = graficarError(data,lowSpeed,mediumSpeed,highSpeed)
     yyaxis right
     plot(vecHigh,datosVelHi)
     yyaxis left
-    title(strcat('Velocidad relativa y error humano. Velocidad Líder: ',string(highSpeed))) 
+    title(strcat('velocidad instantánea y error humano. Velocidad Líder: ',string(highSpeed))) 
     xlabel('Número de muestra') 
     ylabel('Error de Actuacion [m^/s^2]')  
     yyaxis right 
-    ylabel('velocidad relativa [m/s]')    
+    ylabel('velocidad instantánea [m/s]')    
 
 
 end
@@ -117,7 +117,7 @@ end
 function [datosErrorLow, datosErrorMid, datosErrorHi,datosVelLow,...
           datosVelMid, datosVelHi, datosLow,datosMid,datosHi]= separarDatos (data,lowSpeed,mediumSpeed,highSpeed)
     %Funcion que separe los datos de acuerdo a su velocidad.
-    %Funcion retorna los datos totales, y los de velocidad relativa y error
+    %Funcion retorna los datos totales, y los de velocidad instantánea y error
     %de aceleracion asociados a cada velocidad de lider.
 
 
