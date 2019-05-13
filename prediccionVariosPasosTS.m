@@ -1,6 +1,12 @@
-function [YPredict,Y] = prediccionVariosPasosTS(nPasos,XTest,YTest,modeloError,modeloVel,tipoModelo)
+function [YPredict,Y] = prediccionVariosPasosTS(nPasos,XTest,YTest,modeloError,M)
     %Funcion que realiza la prediccion a varios pasos utilizando el modelo
     %de Takagi Sugeno ingresado.
+    
+    %Extraccion de variables.
+    modeloError = M.paramsError;
+    modeloVel = M.paramsVel;
+    
+    
     
     %Casos
     if (tipoModelo == 0)

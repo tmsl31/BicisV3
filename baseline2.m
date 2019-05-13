@@ -1,4 +1,4 @@
-function [params,XTrain,XTest,YTrain,YTest,YPredict,muYTrain,stdYTrain] = baseline2 () 
+function [M,XTrain,XTest,YTrain,YTest,YPredict] = baseline2 () 
     %Representacion lineal para el error.
     
     
@@ -9,7 +9,7 @@ function [params,XTrain,XTest,YTrain,YTest,YPredict,muYTrain,stdYTrain] = baseli
     nRegresores = input('Numero de regresores Maximo inicial:');
     
     %Generacion de la estrutura del modelo. 
-    [in,inV,out,outV] = estructuraModelo2(nRegresores, tipoModelo);
+    [in,~,out,~] = estructuraModelo2(nRegresores, tipoModelo);
 
     
     %% Division de conjuntos.
@@ -35,11 +35,27 @@ function [params,XTrain,XTest,YTrain,YTest,YPredict,muYTrain,stdYTrain] = baseli
     %% Construccion del modelo lineal -> Ojo: sin termino libre.
     
     %Seleccion de caracteristicas.
-    [XTrain,~,XTest] = seleccionCaracteristicas(XTrain,XVal,XTest,nRegresoresOptimo,tipoModelo);
+    [XTrain,~,XTest,muXTrain,stdXTrain] = seleccionCaracteristicas(XTrain,XVal,XTest,nRegresoresOptimo,muXTrain,stdXTrain,tipoModelo);
     % Obtencion de los parámetros utilizando LMS. Se utiliza el conjunto de
     % entrenamiento.
     params = (transpose(XTrain)*XTrain)^(-1)*transpose(XTrain)*YTrain;
     
+    %% Modelo autoregresivo para la velocidad.
+    if (tipoModelo == 1)
+        %Modelo lineal de la velocidad.
+        [paramsVel,muYTrainVel,stdYTrainVel] = modeloLinealVelocidad(XTrain,muXTrain,stdXTrain);
+        M.paramsVel = paramsVel;
+        M.muVel = muYTrainVel;
+        M.stdVel = stdYTrainVel;
+        M.muTrain = muXTrain;
+        M.stdTrain = stdXTrain;
+    end
+    
+    %Ordenacion de los parametros.
+    M.paramsError = params;
+    M.muError = muYTrain;
+    M.stdError = stdYTrain;
+
     %% Evaluacion del modelo.
     [YPredict, Y, RMSEBaseline] = evaluacionBaseline(params,XTest,YTest,muYTrain,stdYTrain);
     
@@ -208,7 +224,7 @@ function [] = sensibilidadRegresoresVelocidad(XTrain,XVal,YTrain,YVal,muYTrain,s
     hold off
 end
 
-function [XT,XV,XTe] = seleccionCaracteristicas(XTrain,XVal,XTest,nRegresores,tipoModelo)
+function [XT,XV,XTe,muXTrain,stdXTrain] = seleccionCaracteristicas(XTrain,XVal,XTest,nRegresores,muXTrain,stdXTrain,tipoModelo)
     %Funcion que elimine las caracteristicas que no se consideraron
     %relevantes.
     
@@ -223,6 +239,8 @@ function [XT,XV,XTe] = seleccionCaracteristicas(XTrain,XVal,XTest,nRegresores,ti
         XT(:,nRegresores+1:end) = [];
         XV(:,nRegresores+1:end) = [];
         XTe(:,nRegresores+1:end) = [];
+        muXTrain(:,nRegresores+1:end) = [];        
+        stdXTrain(:,nRegresores+1:end) = [];
     else
         %Caso Autoregresivo
         %Asignacion.
@@ -236,6 +254,8 @@ function [XT,XV,XTe] = seleccionCaracteristicas(XTrain,XVal,XTest,nRegresores,ti
         XT(:,[nRegresores+1:nRegresoresError,nRegresoresError + nRegresores + 1:nRegOriginal]) = [];
         XV(:,[nRegresores+1:nRegresoresError,nRegresoresError + nRegresores + 1:nRegOriginal]) = [];
         XTe(:,[nRegresores+1:nRegresoresError,nRegresoresError + nRegresores + 1:nRegOriginal]) = [];  
+        muXTrain(:,[nRegresores+1:nRegresoresError,nRegresoresError + nRegresores + 1:nRegOriginal]) = [];        
+        stdXTrain(:,[nRegresores+1:nRegresoresError,nRegresoresError + nRegresores + 1:nRegOriginal]) = [];
     end
 
 end
