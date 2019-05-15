@@ -16,11 +16,10 @@ function [intervalo, alphaOptimo] = sintonizacionIntervalos(model, prob,vectorAl
     
     %Tolerancia de la probabilidad.
     tol = 0.01;
-    
     %Pruebas
     for valorAlpha = vectorAlpha
         %Calculo del intervalo de confianza.
-        [~,inter] = defIntervalo(model,alpha,XTest);
+        [~,inter] = defIntervalo(model,valorAlpha,XTest,YTest);
         %Calculo de la probabilidad de cobertura
         P = probabilidadInclusion(inter,YTest);
         if(P >= prob + tol)
@@ -31,7 +30,7 @@ function [intervalo, alphaOptimo] = sintonizacionIntervalos(model, prob,vectorAl
         end
     end
     if(alphaOptimo == 0)
-        dips('No se encontro alfa optimo.')
+        disp('No se encontro alfa optimo.')
     end
 end
 
@@ -49,13 +48,15 @@ function [prob] = probabilidadInclusion(inter,YTest)
     
     %Calculo de la probabilidad.
     count = 0;
-    for valorY = YTest
+    count2 = 1;
+    while count2 <= elementosTest
         %Calculo de condicion
-        prueba = ((valorY >= down) & (valorY <= up));
-        %Suma de caso si se cumple
-        if(prueba)
+        prueba = ((YTest(count2,1) >= down(count2)) & (YTest(count2,1) <= up(count2)));
+        if(prueba==1)
             count = count + 1;
         end
+        count2 = count2 + 1;
     end
     prob = count/elementosTest;
+    
 end
