@@ -6,6 +6,8 @@ function [in,inV,out,outV] = estructuraModelo2(nRegresores, tipoModelo)
     %% Estructura 
     
     %Importar los datos.
+    %Orden de los datos: None, Orden, Acceleration, CACC, LeaderSpeed, 
+    %Instant Speed, HumanError]
     data = importarDatosNuevos();
     
     %DATOS: Velocidades baja, media y alta. Datos de velocidad asociados a
