@@ -9,6 +9,9 @@ function [vecErrorVal,indicesEliminacion] = variablesRelevantes(XTrain,YTrain,XV
     elseif (tipoModelo == 1)
         %Caso de modelo de autoregresores y Velocidad
          [vecErrorVal,indicesEliminacion] = variablesRelevantesVelocidad(XTrain,YTrain,XVal,YVal,nReglas);
+    elseif(tipoModelo == 2)
+        %Caso de modelo de autoregresores e indicacion de CACC.
+        [vecErrorVal,indicesEliminacion] = variablesRelevantesCACC(XTrain,YTrain,XVal,YVal,nReglas);           
     else
         disp('Error seleccion de variables.')
     end
@@ -56,7 +59,6 @@ function [vecErrorVal,indicesEliminacion] = variablesRelevantesAutoregresivo(XTr
     ylabel('RMSE')
     xlabel('Numero de variables eliminadas')
     hold off
-
 end
 
 %MODELO AUTOREGRESIVO + VELOCIDAD.
@@ -102,6 +104,44 @@ function [vecErrorVal,indicesEliminacion] = variablesRelevantesVelocidad(XTrain,
     ylabel('RMSE')
     xlabel('Numero de variables eliminadas')
     hold off
-     
-
 end
+
+function [vecErrorVal,indicesEliminacion] = variablesRelevantesCACC(XTrain,YTrain,XVal,YVal,nReglas)
+    %Funcion que realice el análisis de sensibilidada para el modelo con
+    %autoregresores y CACC.
+    
+    %Numero de regresores original.
+    [~,nEntradas] = size(XTrain);
+    %Numero de regresores.
+    nRegresores = nEntradas/2; 
+    %Vector de errores de validacion
+    vecErrorVal = zeros(1,nEntradas);
+    %Vector de indices de eliminacion
+    indicesEliminacion = zeros(1,nEntradas);
+    %Ciclo
+    count = 1;
+    while count < nEntradas
+        %Calcular error
+        errVal=errortest(YTrain,XTrain,YVal,XVal,nReglas);
+        %Agregar a vector
+        vecErrorVal(1,count) = errVal;
+        %Analisis de sensibilidad
+        [p, ~] = sensibilidad(YTrain,XTrain,nReglas);
+        %Eliminar
+        indicesEliminacion(1,count) = p;
+        %Eliminar Columna
+        XTrain(:,p) = [];
+        XVal(:,p) = [];
+        count = count + 1;
+    end
+    
+    %Grafica del error de validacion
+    figure()
+    hold on 
+    plot(vecErrorVal)
+    title('Error de validacion para numero de entradas eliminadas. Autoregresores + CACC')
+    ylabel('RMSE')
+    xlabel('Numero de variables eliminadas')
+    hold off
+end
+
