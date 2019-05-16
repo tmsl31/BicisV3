@@ -9,6 +9,9 @@ function [model,XTrain2,XVal2,XTest2]  = TySConSeleccion(XTrain,XVal,XTest,YTrai
     elseif(tipoModelo == 1)
         %Numero optimo de regresores a utilizar.
         nOptimoRegresores = input('Numero optimo de regresores modelo con velocidad');
+    elseif(tipoModelo == 2)
+        %Vector de indices a manetener en entrada.
+        indicesMantener = input('Vector de indices a mantener en entrada:');
     else
         disp('Error en TySConSeleccion')
     end
@@ -20,6 +23,8 @@ function [model,XTrain2,XVal2,XTest2]  = TySConSeleccion(XTrain,XVal,XTest,YTrai
     elseif(tipoModelo == 1)
         %Caso de modelo con velocidad
         [XTrain2,XVal2,XTest2] = seleccionCaracteristicas(XTrain,XVal,XTest,nOptimoRegresores,tipoModelo);
+    elseif(tipoModelo == 2)
+        [XTrain2,XVal2,XTest2] = seleccionCaracteristicas(XTrain,XVal,XTest,indicesMantener,tipoModelo);
     else
         dips('Error en TySConSeleccion')
     end
@@ -37,11 +42,18 @@ function [model,XTrain2,XVal2,XTest2]  = TySConSeleccion(XTrain,XVal,XTest,YTrai
         e = NaN * ones(1,nRegresores);
         e(indicesMantener) = 1;
         model.e = e;
-    else
+    elseif(tipoModelo == 1)
         %Modelo con velocidad.
         e = NaN * ones(1,nRegresores);
         e(1,1:nOptimoRegresores) = 1;
         model.e = e;
+    elseif(tipoModelo == 2)
+        %Modelo de autoregresores.
+        e = NaN * ones(1,nRegresores);
+        e(indicesMantener) = 1;
+        model.e = e;
+    else
+        disp('ERROR')
     end
 end
 
@@ -67,6 +79,10 @@ function [XT,XV,XTe] = seleccionCaracteristicas(XTrain,XVal,XTest,indicesEntrada
         XT(:,[indicesEntradas + 1:nAutoCU,nAutoCU + indicesEntradas + 1:nAutoOrig]) = [];
         XV(:,[indicesEntradas + 1:nAutoCU,nAutoCU + indicesEntradas + 1:nAutoOrig]) = [];
         XTe(:,[indicesEntradas + 1:nAutoCU,nAutoCU + indicesEntradas + 1:nAutoOrig]) = [];
+    elseif(tipoModelo == 2)
+        XT = XTrain(:,indicesEntradas);
+        XV = XVal(:,indicesEntradas);
+        XTe = XTest(:,indicesEntradas);
     else
         disp('Error Seleccion de caracteristicas')
     end

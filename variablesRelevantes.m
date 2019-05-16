@@ -106,18 +106,18 @@ function [vecErrorVal,indicesEliminacion] = variablesRelevantesVelocidad(XTrain,
     hold off
 end
 
-function [vecErrorVal,indicesEliminacion] = variablesRelevantesCACC(XTrain,YTrain,XVal,YVal,nReglas)
+function [vecErrorVal,indicesEliminacion2] = variablesRelevantesCACC(XTrain,YTrain,XVal,YVal,nReglas)
     %Funcion que realice el análisis de sensibilidada para el modelo con
     %autoregresores y CACC.
     
     %Numero de regresores original.
     [~,nEntradas] = size(XTrain);
-    %Numero de regresores.
-    nRegresores = nEntradas/2; 
     %Vector de errores de validacion
     vecErrorVal = zeros(1,nEntradas);
     %Vector de indices de eliminacion
     indicesEliminacion = zeros(1,nEntradas);
+    %Matriz de indices de eliminacion
+    matEliminacion = ones(nEntradas);
     %Ciclo
     count = 1;
     while count < nEntradas
@@ -127,21 +127,50 @@ function [vecErrorVal,indicesEliminacion] = variablesRelevantesCACC(XTrain,YTrai
         vecErrorVal(1,count) = errVal;
         %Analisis de sensibilidad
         [p, ~] = sensibilidad(YTrain,XTrain,nReglas);
-        %Eliminar
+        disp(p)
+        %Agregar al registro.
         indicesEliminacion(1,count) = p;
+        matEliminacion = ordenEliminacion(matEliminacion,p,count);
         %Eliminar Columna
         XTrain(:,p) = [];
         XVal(:,p) = [];
         count = count + 1;
+
     end
-    
+    indicesEliminacion2.indices = indicesEliminacion;
+    indicesEliminacion2.orden = matEliminacion;
     %Grafica del error de validacion
     figure()
     hold on 
-    plot(vecErrorVal)
+    plot(vecErrorVal,'-+')
     title('Error de validacion para numero de entradas eliminadas. Autoregresores + CACC')
     ylabel('RMSE')
     xlabel('Numero de variables eliminadas')
     hold off
 end
 
+function [mat] = ordenEliminacion(mat,indice,fila)
+    %Funcion que muestra el orden de eliminacion de las variables.
+    
+    %Numero de elementos nulos en la fila anterior
+    if(fila ~= 1)
+        cambioIndice = sum(mat(fila,1:indice) == 0);
+        count = 0;
+        indice2 = indice;
+        while (count ==0)
+            if(mat(fila:end,indice2+cambioIndice) == 0)
+                indice2 = indice2 + 1;
+                cambioIndice = cambioIndice + 1;
+            else
+                count = 1;
+            end
+        end
+    end
+    %Eliminar.
+    if(fila==1)
+        mat(fila:end,indice) = 0;
+    else
+        mat(fila:end,indice+cambioIndice) = 0;
+    end
+
+end
