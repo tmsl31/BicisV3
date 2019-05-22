@@ -1,4 +1,4 @@
-function [YPredict,intervalos] = defIntervalo(model,alpha,XTest,YTest)
+function [YPredict,intervalos] = defIntervalo(model,alpha,XTest)
     %Función que realice el calculo de los intervalos de confianza para la
     %muestra zi.
 
@@ -13,8 +13,7 @@ function [YPredict,intervalos] = defIntervalo(model,alpha,XTest,YTest)
     YPredict = evaluacionTS(XTest,model);
     
     %Busqueda de los intervalos de confianza.
-    intervalo = incerteza(XTest,YTest,model);
-
+    intervalo = incertezaVectorEntradas(XTest,YTrain,XTrain,model);
     %Definicion de intervalos superiores e inferiores. intervalo es un
     %vector.
     intervalos.superior = YPredict + alpha * intervalo;
