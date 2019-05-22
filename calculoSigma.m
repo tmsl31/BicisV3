@@ -1,21 +1,31 @@
-function [sigmar] = calculoSigma(model,XTest,YTest,linealidad)
+function [sigmar] = calculoSigma(model,XTrain,YTrain,linealidad)
     %Funcion que realiza el calculo de los valores de sigma para cada regla
     %Para el calculo de la incerteza por metodo de covarianza.
     
-    %Parametros del modelo.
+    %Parametros:
+    %model -> Modelo de Takagi - Sugeno.
+    %XTrain -> Entradas del conjunto de entrenamiento.
+    %YTrain -> Salida del conjunto de entrenamiento.
+    %linealidad ->  Define si el modelo es lineal (sin bias) o afin (con
+    %bias).
+    
+    %Parametros del modelo. 
+    %h Corresponde a los grados de activacion normalizados del conjunto de
+    %train
     h = model.h;
     
-    %Numero de entradas.
-    nEntradas = size(XTest,2);
-    
     %Calculo del parametro \greek{v}, 'suma de activaciones'
-    vr = vRegla(model);
-    
-    %Calculo de \bar{e}
-    [e2,~,~]= eBarra(vr,XTest,YTest,model);
+    vr = vRegla(h);
     
     %Calculo de mu
-    mu = mu2(model);
+    mu = mu2(h);
+    
+    %Calculo de \bar{e} %Columna.
+    [e2,~]= eBarra(vr,XTrain,YTrain,model,h);
+    
+    %Numero de entradas.
+    nEntradas = size(XTrain,2);
+
     %Numero de parametros.
     if (linealidad==0)
         %Caso de un modelo afin
@@ -26,51 +36,62 @@ function [sigmar] = calculoSigma(model,XTest,YTest,linealidad)
     else
         disp('Error en calculo de sigma')
     end
-    %sigmar
+    %sigma2
     beta2 = h.^2;    
-    sigmar = (1./(mu-n)).* (transpose(e2) * beta2);
+    sigma2 = (1./(mu-n)).* (transpose(e2) * beta2);
+    %simar 
+    sigmar = sqrt(sigma2);
 end
 
 
 %% FUNCIONES AUXILIARES.
-function [vr] = vRegla(model)
+
+function [vr] = vRegla(h)
     %Funcion que calcule los v para una cierta regla
     
-   %Calculo de grados de activacion por regla
-   %wn(r) es el grado de activacion de la regla r.
-   %mu(r,i) es el grado de activacion para la regla r ante la entrada i.
-   %Debe retornar un vector de la misma dimnesion que el numero de
-   %entradas
-   h = model.h;
-   vr = sum(h);
+    %Numero de reglas
+    [~,nReglas] = size(h);
+    %Construccion del vr
+    vr = zeros(nReglas,1);
+    %Calculo de la suma
+    count = 1;
+    while count <= nReglas
+        vr(count,1) = sum(h(:,count));
+    end
 end
 
-function [e2,error,errorMedio] = eBarra(vr,XTest,YTest,model)
+function [mu] = mu2(h)
+    %Parametro mu de las formulas.
+    
+    %Numero de reglas
+    [~,nReglas] = size(h);
+    %Construccion del vr
+    mu = zeros(nReglas,1);
+    %Calculo de la suma
+    count = 1;
+    while count <= nReglas
+        mu(count,1) = sum(h(:,count).^2);
+    end
+end
+
+function [e2,errorBarra] = eBarra(vr,XTrain,YTrain,model,h)
     %Funcion que calcule el parametro e barra de las ecuaciones para la
     %determinacion de la incerteza.
     %RETORNA UNA COLUMNA PARA CADA REGLA.
     
-    %Parametros del modelo.
-    h = model.h;
-    
     %Determinacion del error con las predicciones.
     %Predicciones.
-    YPredict = evaluacionTS(XTest,model);
+    YPredict = evaluacionTS(XTrain,model);
     %Error.
-    error = YTest-YPredict;
+    error = YTrain-YPredict;
     
     %Calculo de error medio
     suma = transpose(error) * h;
-    errorMedio = suma/vr;
+    errorBarra = suma./vr;
     
     %e2
-    e2 = (error-errorMedio).^2;
+    e2 = (error-errorBarra).^2;
+    %Para que quede como columna.
+    e2 = transpose(e2);
 end
 
-function [mu] = mu2(model)
-    %Parametro mu de las formulas.
-    h = model.h;
-    
-    %Calculo de la suma al cuadrado.
-    mu = sum(h.^2);
-end

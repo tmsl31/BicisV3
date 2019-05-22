@@ -1,10 +1,21 @@
-function y=incerteza(X,Y,model)
+function y=incerteza(X,Y,YTrain,XTrain,model)
+%Funcion que calcule los valores de la incertidumbre (I) del modelo.
 
+%Parametros:
+%model -> Parametros del modelo de Takagi - Sugeno.
+%X -> Valores de X cuya incerteza se quiera calcular.
+%Y -> Valores de Y reales. Estos corresponden al conjuntos de test.
+%XTrain -> Valores de X del conjunto de entrnamiento
+%YTrain -> Valores de Y del conjunto de entrnamiento. Necesarios para el
+%calculo de sigma.
+
+%Obtencion de parametros del modelo.
 a = model.a;
 b = model.b;
 P = model.P;
 
-std_j = calculoSigma(model,X,Y,1);
+% calculo de sigma. Retorna una fila.
+std_j = calculoSigma(model,XTrain,YTrain,1);
 % y is the vector of outputs 
 % X is the data matrix Input
 

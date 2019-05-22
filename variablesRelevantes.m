@@ -113,7 +113,7 @@ function [vecErrorVal,indicesEliminacion2] = variablesRelevantesCACC(XTrain,YTra
     %Numero de regresores original.
     [~,nEntradas] = size(XTrain);
     %Vector de errores de validacion
-    vecErrorVal = zeros(1,nEntradas);
+    vecErrorVal = zeros(1,nEntradas-1);
     %Vector de indices de eliminacion
     indicesEliminacion = zeros(1,nEntradas);
     %Matriz de indices de eliminacion
@@ -127,7 +127,6 @@ function [vecErrorVal,indicesEliminacion2] = variablesRelevantesCACC(XTrain,YTra
         vecErrorVal(1,count) = errVal;
         %Analisis de sensibilidad
         [p, ~] = sensibilidad(YTrain,XTrain,nReglas);
-        disp(p)
         %Agregar al registro.
         indicesEliminacion(1,count) = p;
         matEliminacion = ordenEliminacion(matEliminacion,p,count);
