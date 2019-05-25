@@ -4,7 +4,7 @@ function [vectorI] = incertezaVectorEntradas(matX,YTrain,XTrain,model)
     %Parametros:
     
     %Numero de entradas.
-    nEntradas = size(X,1);
+    nEntradas = size(matX,1);
     %vector que almacene los valores de I como columna.
     vectorI = zeros(nEntradas,1);
     

@@ -1,4 +1,4 @@
-function I = incertezaUnaEntrada(X,YTrain,XTrain,model)
+function I = incertezaUnaEntrada(X,XTrain,YTrain,model)
     %Funcion que calcule los valores de la incertidumbre (I) del modelo
     %para una entrada(i.e una fila de X).
 
@@ -61,8 +61,12 @@ function [Ir] = calculoIr(phiT,P,sigmas)
     Ir = zeros(nReglas,1);
     %Ciclo de evaluacion.
     count = 1;
-    for phi = phiT
+    while (count <= nReglas)
+        %Valor de phi por cada regla.
+        phi = phiT(count,:);
+        %Calculo del factor.
         factor = (1 + phi * P(:,:,count) * transpose(phi))^2;
+        %Calculo de la incerteza por cada regla
         Ir(count) = sigmas(count) * factor;
         count = count + 1;
     end
@@ -79,7 +83,10 @@ function [phiT] = proyeccionEntrada(betar,z)
     phiT = zeros(nReglas,nIn);
     %Ciclo de evaluacion.
     count = 1;
-    for beta = betar
+    while count <= betar
+        beta = betar(count);
+        disp(size(beta))
+        disp(size(z))
         phiT(count,:) = beta * z;
         count = count + 1;
     end
@@ -101,7 +108,7 @@ function [betar] = gradosActivacion(a,b,X)
         %Por cada regla.
         for entrada = 1:nEntradas
             %Por cada entrada
-            muEntrada = gaussiana(b(regla,entrada),a(regla,entrada),X(regla,entrada));
+            muEntrada = gaussiana(b(regla,entrada),a(regla,entrada),X(1,entrada));
             betar(regla) = betar(regla) * muEntrada;
         end
     end

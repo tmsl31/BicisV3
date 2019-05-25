@@ -1,4 +1,4 @@
-function [YPredict,intervalos] = defIntervalo(model,alpha,XTest)
+function [YPredict,intervalos] = defIntervalo(model,alpha,XTest,XTrain,YTrain)
     %Función que realice el calculo de los intervalos de confianza para la
     %muestra zi.
 
