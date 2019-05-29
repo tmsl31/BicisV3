@@ -11,7 +11,6 @@ function [YPredict,intervalos] = defIntervalo(model,alpha,XTest,XTrain,YTrain)
     
     %Obtención de las predicciones usando Takagi & Sugeno.
     YPredict = evaluacionTS(XTest,model);
-    
     %Busqueda de los intervalos de confianza.
     intervalo = incertezaVectorEntradas(XTest,YTrain,XTrain,model);
     %Definicion de intervalos superiores e inferiores. intervalo es un

@@ -12,10 +12,8 @@ function YPredict = evaluacionTS(X,model)
 
     %Dimensiones.
     [nMuestras,nEntradas] = size(X);
-    %Numero de reglas del modelo.
-    numeroReglas = size(a,1);
     %Numero de parametros de consecuencia.
-    [~,nParametros] = size(g);
+    [numeroReglas,nParametros] = size(g);
     %Tipo Modelo
     linealidad = nParametros-nEntradas;
     %Vector que almacene las predicciones.

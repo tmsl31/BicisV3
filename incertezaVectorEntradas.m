@@ -4,14 +4,14 @@ function [vectorI] = incertezaVectorEntradas(matX,YTrain,XTrain,model)
     %Parametros:
     
     %Numero de entradas.
-    nEntradas = size(matX,1);
+    nInputs = size(matX,1);
     %vector que almacene los valores de I como columna.
-    vectorI = zeros(nEntradas,1);
+    vectorI = zeros(nInputs,1);
     
     %Ciclo de computo.
     count = 1;
-    while count < nEntradas  
-        I = incertezaUnaEntrada(matX(count,:),YTrain,XTrain,model);
+    while count <= nInputs  
+        I = incertezaUnaEntrada(matX(count,:),XTrain,YTrain,model);
         vectorI(count,1) = I;
         count = count + 1;
     end
