@@ -1,4 +1,4 @@
-function [vectorI] = incertezaVectorEntradas(matX,YTrain,XTrain,model)
+function [vectorI] = incertezaVectorEntradas(matX,model)
     %Calcula los valores de I para un vector vector de vectores de entrada.
     
     %Parametros:
@@ -11,7 +11,7 @@ function [vectorI] = incertezaVectorEntradas(matX,YTrain,XTrain,model)
     %Ciclo de computo.
     count = 1;
     while count <= nInputs  
-        I = incertezaUnaEntrada(matX(count,:),XTrain,YTrain,model);
+        I = incertezaUnaEntrada(matX(count,:),model);
         vectorI(count,1) = I;
         count = count + 1;
     end

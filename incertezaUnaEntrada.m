@@ -1,4 +1,4 @@
-function I = incertezaUnaEntrada(X,XTrain,YTrain,model)
+function I = incertezaUnaEntrada(X,model)
     %Funcion que calcule los valores de la incertidumbre (I) del modelo
     %para una entrada(i.e una fila de X).
 
@@ -15,10 +15,8 @@ function I = incertezaUnaEntrada(X,XTrain,YTrain,model)
     b = model.b;
     P = model.P;
     g = model.g;
-
-    % calculo de sigma. Retorna una fila.
-    sigmas = calculoSigma(model,XTrain,YTrain,1);
-
+    sigmas = model.sigma;
+    
     % Numero de entradas y regresores.
     [~,nRegresores] = size(X);
     
