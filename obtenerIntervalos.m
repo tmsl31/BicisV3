@@ -1,3 +1,29 @@
+function [alphaOptimo] = obtenerIntervalos(model,prob,XVal,XTest,YVal,YTest)
+    %Funcion que realiza el calculo y grafica de los intervalos. Realiza
+    %tambien la obtencion del alpha optimo que permita un cierto pocentaje
+    %de inclusion de los resultados.
+    
+    %Definion del vector de alpha
+    vectorAlpha = 0:0.01:10;
+    %Calculo de optimo e intervalos.
+    [~, alphaOptimo] = sintonizacionIntervalos(model, prob,vectorAlpha, XVal, YVal);
+    %Intervalos para Test.
+    [YPredict,intervalos] = defIntervalo(model,alphaOptimo,XTest);
+    %Limites.
+    down = intervalos.inferior;
+    up = intervalos.superior;
+    %Grafico
+    figure()
+    hold on
+    ciplot(down,up,[0.6 0.6 0.6])
+    plot(YPredict,'r+-')
+    plot(YTest,'b*-')
+    legend('Intervalo','Prediccion','Valor Real')
+    title('')
+    hold off
+    
+end
+
 function ciplot(lower,upper,colour)
      
 % ciplot(lower,upper)       
@@ -32,6 +58,4 @@ upper=upper'; end
 %fill([x fliplr(x)],[upper fliplr(lower)],colour,'EdgeColor',colour)
 fill([x fliplr(x)],[upper fliplr(lower)],colour)
 end
-
-
 

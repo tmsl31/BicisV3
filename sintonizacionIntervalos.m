@@ -1,4 +1,4 @@
-function [intervalo, alphaOptimo] = sintonizacionIntervalos(model, prob,vectorAlpha, XTest, YTest,XTrain,YTrain)
+function [intervalo, alphaOptimo] = sintonizacionIntervalos(model, prob,vectorAlpha, XTest, YTest)
     %Funcion que realice variaciones del valor de alpha hasta encontrar una
     %cierta probabilidad de encerrar los valores reales de salida del
     %conjunto Test
@@ -19,7 +19,7 @@ function [intervalo, alphaOptimo] = sintonizacionIntervalos(model, prob,vectorAl
     %Pruebas
     for valorAlpha = vectorAlpha
         %Calculo del intervalo de confianza.
-        [~,inter] = defIntervalo(model,valorAlpha,XTest,XTrain,YTrain);
+        [~,inter] = defIntervalo(model,valorAlpha,XTest);
         %Calculo de la probabilidad de cobertura
         P = probabilidadInclusion(inter,YTest);
         if(P >= prob + tol)
