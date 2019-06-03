@@ -42,9 +42,9 @@ function [MError,XTrain2,XVal2,XTest2,YTrain,YVal,YTest] = entrenamiento2()
     %Calculo del error
     [~,indicesEliminacion] = variablesRelevantes(XTrain,YTrain,XVal,YVal,optimoReglas,tipoModelo);
     disp('orden de eliminacion:')
-    disp(indicesEliminacion.indices)
-    disp('Matriz Eliminacion:')
-    disp(indicesEliminacion.orden)
+    disp(indicesEliminacion)
+%     disp('Matriz Eliminacion:')
+%     disp(indicesEliminacion.orden)
     
     %% Construccion del modelo.
     

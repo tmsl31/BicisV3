@@ -1,0 +1,1 @@
+[MError,XTrain2,XVal2,XTest2,YTrain,YVal,YTest] = entrenamiento2();

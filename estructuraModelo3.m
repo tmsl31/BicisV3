@@ -24,7 +24,7 @@ function [in,out] = estructuraModelo3(nRegresores, tipoModelo)
         disp('<<Generacion de estructura autoregresiva.>>')
         %Generacion de la estructura autoregresiva. Se utilizan datos
         %desordenados por defecto.
-        [in,out] = estructuraAutoregresiva(datosErrorLow,datosErrorMid,datosErrorHi,nRegresores,1);
+        [in,out] = estructuraAutoregresiva(datosLow,datosMid,datosHi,nRegresores,1);
         disp('Estructura Autoregresiva')
         disp(strcat('Se utilizan inicialmente '," ",string(nRegresores)," " ,'regresores'))
     elseif (tipoModelo == 1)
@@ -47,36 +47,6 @@ function [in,out] = estructuraModelo3(nRegresores, tipoModelo)
 end
 
 %% Funciones Auxiliares.
-% INCORPORACION DE DATOS.
-function [data] = importarDatosNuevos()
-    %Funcion que realice la importacion y separacion de los nuevos datos.
-    %Se tiene una matriz con los datos existentes en .csv
-    Rinit = 1;
-    Cinit = 0;
-    datos = csvread('C:\Users\tlara\OneDrive\Documentos\GitHub\BicisV3\datosError\datoserrorhumano.csv',Rinit,Cinit);
-    %Agregar el error de actuacion
-    data = agregarErrorActuacion(datos);
-end
-
-function [datosConError] = agregarErrorActuacion(data)
-    %Funcion que calcule el error de actuacion a partir de los datos.
-    
-    %Dimensiones del vector de data.
-    [nMuestras,nCols] = size(data);
-    %Vector que almacene los datos con error.
-    datosConError = zeros(nMuestras,nCols+1);
-    %Calcular el vector de error de actuacion
-    vectorError = data(:,6)-data(:,4);
-    %Ingresar en la nueva Matriz de datos.
-    datosConError (:,1:2) = data(:,1:2);
-    datosConError(:,3) = data(:,4);
-    datosConError(:,4) = data(:,6);
-    datosConError(:,5) = data(:,5);
-    datosConError(:,6) = data(:,3);
-    datosConError(:,7) = vectorError;
-    disp('Estructura')
-    disp('None, Orden, Acceleration, CACC, LeaderSpeed, Instant Speed, HumanError.')
-end
 
 function [datosLow,datosMid,datosHi]= separarDatos (data,lowSpeed,mediumSpeed,highSpeed)
     %Funcion que separe los datos de acuerdo a su velocidad.
@@ -148,9 +118,13 @@ function [in,out] = estructuraAutoregresiva(lowData,mediumData,highData,nRegreso
     %Funcion que entregue la matriz de datos tal que se tenga la salida del
     %modelo y las entradas, con el número de autoregresores
     %correspondiente.
-
+    
+    %Datos Error de aceleracion
+    lowErrorData = lowData(:,7);
+    mediumErrorData = mediumData(:,7);
+    highErrorData = highData(:,7);
     %Concatenacion de los datos.
-    data = [lowData;mediumData;highData];
+    data = [lowErrorData;mediumErrorData;highErrorData];
     %Dimensiones
     [nDatos,~] = size(data);
     %Salidas
