@@ -54,4 +54,7 @@ function [MError,XTrain2,XVal2,XTest2,YTrain,YVal,YTest] = entrenamiento2()
     %Almacenar los datos para la desnormalizacion.
     MError.mu = muYTrain;
     MError.std = stdYTrain;
+    
+    %% Agregar sigma
+    MError = agregarSigmaModelo(MError,XTrain2,YTrain);
 end

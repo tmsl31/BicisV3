@@ -30,7 +30,7 @@ if find(size(upper)==(max(size(upper))))<2
 upper=upper'; end
 
 %fill([x fliplr(x)],[upper fliplr(lower)],colour,'EdgeColor',colour)
-fill([x fliplr(x)],[upper fliplr(lower)],[0.7 0.7 0.7])
+fill([x fliplr(x)],[upper fliplr(lower)],colour)
 
 
 
