@@ -14,10 +14,10 @@ function [bdes2] = comprimirRestricciones(bdes,Iinf,Isup)
     
     %Modificacion de la cota inferior.
     count = 1;
-    for cotaInf = Iinf
+    for cotaInf = Iinf'
         countAux = count;
         while(countAux <= nCotasInf) 
-            bdes2(countAux) = bdes(countAux) - cotaInf;
+            bdes2(countAux) = bdes(countAux) + cotaInf;%????????
             countAux = countAux + 2;
         end
         count = count + 1;
@@ -25,10 +25,9 @@ function [bdes2] = comprimirRestricciones(bdes,Iinf,Isup)
     
     %Modificacion de la cota superior.
     count2 = nCotasInf + 1;
-    for cotaSup = Isup
+    for cotaSup = Isup'
         countAux = count2;
         while(countAux <= nCotasInf*2)
-            disp(countAux)
             bdes2(countAux) = bdes(countAux) - cotaSup;
             countAux = countAux + 2;
         end

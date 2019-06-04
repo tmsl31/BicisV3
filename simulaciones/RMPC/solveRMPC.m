@@ -13,10 +13,11 @@ function [uDes] = solveRMPC(xi,vi,xAnterior,vAnterior,vLider,errorAnterior,model
     % bufferErrores -> Buffer que almacena los ultimos cinco valores de e.
     
     %Variables globales.
-    global Wx Wv Wu
+    global Wx Wv Wu contador
     
     %Actualizacion del buffer de error con el nuevo error obtenido.
     actualizarBufferError(errorAnterior);
+    if (contador >= 6)
     %Calculo de los intevalos.
     [Iinf,Isup] = intervalosSimulacion(model,nPasos);
     %Definicion de la funcion de costos a optimizar.
@@ -27,14 +28,20 @@ function [uDes] = solveRMPC(xi,vi,xAnterior,vAnterior,vLider,errorAnterior,model
     [Aeq,beq] = matIgualdades(nPasos,xi,vi,xAnterior,vAnterior);
     %Compresion de las matrices de desigualdad.
     [bdes2] = comprimirRestricciones(bdes,Iinf,Isup);
+    %disp(bdes2)
     %Opciones del optimizador
     nVar = 6*nPasos;
     options = optimoptions(@ga,'CrossoverFraction',0.40,'FunctionTolerance',5e-3,'MaxGenerations',800,'MaxTime',30,'PopulationSize',50,'MaxStallGenerations',40);
-    rng default
+    rng default;
     %Resolucion del problema de optimizacion.
     optimo = ga(Jmin,nVar,Ades,bdes2,Aeq,beq,[],[],[],options);    
     %Obtencion de uDes.
     uDes = optimo(posU);
+    else
+        uDes = 0;
+        
+    end
+    contador = contador + 1;
 end
 
 %% Funciones auxiliares.

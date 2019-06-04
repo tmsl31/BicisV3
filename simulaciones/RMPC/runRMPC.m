@@ -1,16 +1,18 @@
 %%Simulacion de sistema RMPC.
-% Variables globales.
-global bufferError contador alpha d Wx Wv Wu ts
-%%SCRIPT
 clear;
+% Variables globales.
+global bufferError contador alpha d Wx Wv Wu ts contador
+%%SCRIPT
+
 %% Parametros de Takagi & Sugeno.
 %Importar workspace
-load('TSAutoDefinitivo.mat');
+load('TSAutoDefinitivo2.mat');
 
 %% Datos y restricciones.
 % Definición de constantes
 d = 2;              %Largo de las bicicletas (m).
-alpha = 1.5200;     %Alpha para 90% de los casos de validacion
+%alpha = 1.5200;     %Alpha para 70% de los casos de validacion
+alpha = 0.67;
 contador = 0;       %Contador de pasos de la simulacion.
 %Restricciones fisicas de ciclista
 lb = -1.5;          %Limite inferior u (m/s^2).
@@ -19,11 +21,17 @@ deltaULB = -3.0;    %Limite inferior deltaU (m/s^2)
 deltaUUB = 1.5;     %Limite superior deltaU (m/s^2)
 
 %Datos configurables por consola.
-nSteps = input('Numero de pasos prediccion: ');
-Ldes = input('Valor de spacing deseado (m): ');
-ts = input('Tiempo de muestreo (s): ');
-tSimulacion = 60 * input('Tiempo simulacion (min): ');
-v0Leader = input('Velocidad lider (m/s)(2.7,4.16,5)');
+% nPasos = input('Numero de pasos prediccion: ');
+% Ldes = input('Valor de spacing deseado (m): ');
+% ts = input('Tiempo de muestreo (s): ');
+% tSimulacion = 60 * input('Tiempo simulacion (min): ');
+% v0Leader = input('Velocidad lider (m/s)(2.7,4.16,5)');
+nPasos = 4;
+Ldes = 2;
+ts = 0.1;
+tSimulacion = 60 * 4;
+v0Leader = 2.7;
+
 
 %Buffer de error (tamano 5 por los regresores)
 bufferError = zeros(1,5);
@@ -61,12 +69,34 @@ v0Bici3 = 1;
 [meanError,varError] = errorActuacion(v0Leader);
 
 %Matrices de desigualdades.
-[Ades,bdes] = defRestricciones(nPasos,lb,ub,deltaLB,deltaUB);
+[Ades,bdes] = defRestricciones(nPasos,lb,ub,deltaULB,deltaUUB);
 
 %% SIMULACION
 
 %SIMULAR.
-%simul('simulRMPC.slx')
+sim('simulRMPC.slx')
+
+%% GRAFICOS SIMULACION
+
+%Graficos.
+%Spacing
+figure(1)
+plot(spacing)
+titulo1 = strcat('Spacing, Weights: [Wx,Wv,Wu] = ',string([Wx,Wv,Wu]));
+title(titulo1)
+xlabel('Time (s)')
+ylabel('Spacing (m)')
+%legend('Bicicleta 2', 'Bicicleta 3', 'Bicicleta 4')
+
+%Trayectoria
+figure(2)
+plot(position)
+titulo2 = strcat('Position, Weights: [Wx,Wv,Wu] = ',string([Wx,Wv,Wu]));
+title(titulo2)
+xlabel('Time (s)')
+ylabel('Position (m)')
+%legend('Bicicleta 1 (Lider)','Bicicleta 2', 'Bicicleta 3', 'Bicicleta 4')
+
 
 %% FUNCIONES AUXILIARES.
 
@@ -90,3 +120,4 @@ function [meanError,varError] = errorActuacion(v0Leader)
     %Varianza
     varError = varError^2;
 end
+
