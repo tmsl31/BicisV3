@@ -24,15 +24,15 @@ deltaUUB = 1.5;     %Limite superior deltaU (m/s^2)
 nPasos = input('Numero de pasos prediccion: ');
 Ldes = input('Valor de spacing deseado (m): ');
 ts = input('Tiempo de muestreo (s): ');
-tSimulacion = 60 * input('Tiempo simulacion (min): ');
+simulationTime = 60 * input('Tiempo simulacion (min): ');
 v0Leader = input('Velocidad lider (m/s)(2.7,4.16,5)');
-
+transmissionDelay = input('Delay (ms)')/1000;
 %Buffer de error (tamano 5 por los regresores)
 bufferError = zeros(1,5);
 
 %% Configuraciones de la simulacion.
 %Ponderaciones de los terminos
-Wx = 1;     %Peso asociado a spacing.
+Wx = 2;     %Peso asociado a spacing.
 Wv = 1;     %Peso asociado a seguimiento de velocidad.
 Wu = 1;     %Peso asociado a accion de control
 
@@ -59,6 +59,10 @@ v0Bici2 = 1;
 x0Bici3 = -30;
 v0Bici3 = 1;
 
+%Bicicleta seguidora 3.
+x0Bici4 = -40;
+v0Bici4 = 1;
+
 %Error de actuacion
 [meanError,varError] = errorActuacion(v0Leader);
 
@@ -68,28 +72,32 @@ v0Bici3 = 1;
 %% SIMULACION
 
 %SIMULAR.
-sim('simulRMPC.slx')
+sim('simulDelayRMPC.slx')
 
 %% GRAFICOS SIMULACION
 
 %Graficos.
 %Spacing
 figure(1)
+hold on
 plot(spacing)
+plot(spacing2)
+plot(spacing3)
+plot(spacing4)
 titulo1 = strcat('Spacing, Weights: [Wx,Wv,Wu] = ',string([Wx,Wv,Wu]));
 title(titulo1)
 xlabel('Time (s)')
 ylabel('Spacing (m)')
-%legend('Bicicleta 2', 'Bicicleta 3', 'Bicicleta 4')
+legend('Lider - B1', 'B1-B2', 'B2-B3', 'B3-B4')
 
 %Trayectoria
 figure(2)
-plot(position)
-titulo2 = strcat('Position, Weights: [Wx,Wv,Wu] = ',string([Wx,Wv,Wu]));
+plot(speed)
+titulo2 = strcat('Speed, Weights: [Wx,Wv,Wu] = ',string([Wx,Wv,Wu]));
 title(titulo2)
 xlabel('Time (s)')
 ylabel('Position (m)')
-%legend('Bicicleta 1 (Lider)','Bicicleta 2', 'Bicicleta 3', 'Bicicleta 4')
+legend('BLider','B2','B3','B4','B5')
 
 
 %% FUNCIONES AUXILIARES.
@@ -114,4 +122,3 @@ function [meanError,varError] = errorActuacion(v0Leader)
     %Varianza
     varError = varError^2;
 end
-
