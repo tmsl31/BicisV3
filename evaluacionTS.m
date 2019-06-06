@@ -38,7 +38,6 @@ function YPredict = evaluacionTS(X,model)
         
         %Calculo del grado de activacion normalizado de la regla.
         Wn = activacionNorm(W);
-        
         %Evaluacion de las consecuencias.
         if (linealidad == 1) 
             %Caso en que el modelo es afin. Con bias.
@@ -49,6 +48,7 @@ function YPredict = evaluacionTS(X,model)
         else
             disp('Error formulacion')
         end
+        disp(yr);
         YPredict(muestra,1) = Wn*yr;
     end
 end
