@@ -20,4 +20,13 @@ struct modeloTS {
     double sigma[5];
 } ;
 
+struct intervalos {
+    double superior;
+    double inferior;
+};
+
+struct intervalos2 {
+    double superior[5];
+    double inferior[5];
+};
 #endif //UNTITLED2_TSTYPES_H

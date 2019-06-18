@@ -61,10 +61,12 @@ function [Ir] = calculoIr(phiT,P,sigmas)
     count = 1;
     while (count <= nReglas)
         %Valor de phi por cada regla.
-        phi = phiT(count,:);
+        phiTrans = phiT(count,:);
+        valorPhi = transpose(phiTrans);
         %Calculo del factor.
-        factor = (1 + phi * P(:,:,count) * transpose(phi))^2;
+        factor = (1 + phiTrans * P(:,:,count) * valorPhi)^2;
         %Calculo de la incerteza por cada regla
+        disp(factor)
         Ir(count) = sigmas(count) * factor;
         count = count + 1;
     end
@@ -81,7 +83,8 @@ function [phiT] = proyeccionEntrada(betar,z)
     phiT = zeros(nReglas,nIn);
     %Ciclo de evaluacion.
     count = 1;
-    while count <= betar
+    %OJO con la siguiente linea.
+    while count <= nReglas
         beta = betar(count);
         phiT(count,:) = beta * z;
         count = count + 1;

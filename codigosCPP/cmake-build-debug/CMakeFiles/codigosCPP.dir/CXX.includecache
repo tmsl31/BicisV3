@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/tlara/OneDrive/Documentos/GitHub/BicisV3/codigosCPP/funciones.h
+tsType.h
+C:/Users/tlara/OneDrive/Documentos/GitHub/BicisV3/codigosCPP/tsType.h
+bits/stdc++.h
+-
+
+C:/Users/tlara/OneDrive/Documentos/GitHub/BicisV3/codigosCPP/main.cpp
+iostream
+-
+tsType.h
+C:/Users/tlara/OneDrive/Documentos/GitHub/BicisV3/codigosCPP/tsType.h
+funciones.h
+C:/Users/tlara/OneDrive/Documentos/GitHub/BicisV3/codigosCPP/funciones.h
+cmath
+-
+
+C:/Users/tlara/OneDrive/Documentos/GitHub/BicisV3/codigosCPP/tsType.h
+

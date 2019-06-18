@@ -1,5 +1,6 @@
 #include <iostream>
 #include "tsType.h"
+#include "funciones.h"
 #include <cmath>
 
 using namespace std;
@@ -62,62 +63,198 @@ double evaluacionTS(double X[2] , modeloTS model){
     return YPredict;
 }
 
+//Funcion que calcule el valor de I para una entrada.
+double incerteza(double X[2],modeloTS model){
+    //
+    //Declaracion de variables a utilizar.
+    int nEntradas = 2;
+    int nParametros = 3;
+    int nReglas = 5;
+    double W[5] =  {1,1,1,1,1};
+    double mu[nReglas][nEntradas];
+    double suma = 0;
+    double phiT[nReglas][nParametros];
+    double Ir[nReglas];
 
+    // Vector de entrada con factor Bias.
+    double z[3] = {1,X[0],X[1]};
+    //Calculo de los grados de activacion.
+    for (int regla = 0; regla < nReglas; regla++) {
+        //Por cada regla.
+        for (int entrada = 0; entrada < nEntradas; entrada++) {
+            //Por cada entrada.
+            mu[regla][entrada] = gauss(model.b[regla][entrada], model.a[regla][entrada], X[entrada]);
+            W[regla] = W[regla] * mu[regla][entrada];
+        }
+    }
+    //Normalizacion de los grados de activacion.
+    if (!((W[0] ==0) & (W[1] ==0) & (W[2] ==0) & (W[3] ==0) & (W[4] ==0))){
+        for (double i : W) {
+            suma = suma + i;
+        }
+        for (double & i : W) {
+            i = i / suma;
+        }
+    }
+    //Proyeccion de la entrada.
+    for (int i = 0; i<nReglas; i++){
+        // Llenar vector
+        phiT[i][0] = W[i] * z[0];
+        phiT[i][1] = W[i] * z[1];
+        phiT[i][2] = W[i] * z[2];
+    }
+
+    //Valores Ir.
+    for (int count = 0; count < nReglas; count ++){
+        //Por cada regla.
+        //Valor de sigma.
+        double valorSigma = model.sigma[count];
+        //Calculo del factor.
+        //P * phiT.
+        double factor[3];
+        for (int i= 0; i< nParametros; i++){
+            double suma = 0;
+            for(int j=0; j< nParametros; j++){
+                suma = suma + model.P[i][j][count] * phiT[count][j];
+            }
+            factor[i] = suma;
+        }
+
+        double factor2 = 0;
+        for (int i = 0;i<3;i++){
+            factor2 = factor2 + phiT[count][i] * factor[i];
+        }
+        double factor3 = pow((1+factor2),2);
+        Ir[count] = valorSigma * factor3;
+    }
+    //Calculo de I para la entrada
+    double I = 0;
+    for (int i =0;i<nReglas;i++){
+        I = I + W[i] * Ir[i];
+    }
+    return I;
+}
+
+//Funcion que calcule los intervalos.
+intervalos defIntervalo(modeloTS model, double alpha, double X[2]){
+
+    //Definiciones de variables.
+    double YPredict;
+    double I;
+    intervalos Ints;
+    //Calculo de la prediccion con el modelo de Takagi & Sugeno.
+    YPredict = evaluacionTS(X,model);
+    //Calculo de la incerteza.
+    I = incerteza(X,model);
+    //Calculo de los intervalos.
+    Ints.inferior = YPredict - alpha * I;
+    Ints.superior = YPredict + alpha * I;
+    //Output.
+    return Ints;
+}
+
+// Funcion que calcule los intervalos a usar para la simulacion.
+intervalos2 intervalosSimulacion(modeloTS model, int nPasos, double buffer[5],double alpha){
+
+    //Definiciones
+    double X[2];
+    intervalos aux;
+    intervalos2 output;
+
+    //Entradas un paso.
+    X[0] = buffer[0];
+    X[1] = buffer[1];
+
+    if (nPasos >= 1){
+        aux = defIntervalo(model,alpha,X);
+        output.inferior[0] = aux.inferior;
+        output.superior[0] = aux.superior;
+    }
+    if (nPasos >= 2){
+        double ek = evaluacionTS(X,model);
+        //Actualizar buffer.
+        buffer[0] = buffer[1];
+        buffer[1] = buffer[2];
+        buffer[2] = buffer[3];
+        buffer[3] = buffer[4];
+        buffer[4] =  ek;
+        //Entrada
+        X[0] = buffer[0];
+        X[1] = buffer[1];
+        //Calculo intervalos
+        aux = defIntervalo(model,alpha,X);
+        output.inferior[1] = aux.inferior;
+        output.superior[1] = aux.superior;
+    }
+    if (nPasos >= 3) {
+        double ek = evaluacionTS(X,model);
+        //Actualizar buffer.
+        buffer[0] = buffer[1];
+        buffer[1] = buffer[2];
+        buffer[2] = buffer[3];
+        buffer[3] = buffer[4];
+        buffer[4] =  ek;
+        //Entrada
+        X[0] = buffer[0];
+        X[1] = buffer[1];
+        //Calculo intervalos
+        aux = defIntervalo(model,alpha,X);
+        output.inferior[2] = aux.inferior;
+        output.superior[2] = aux.superior;
+    }
+    if (nPasos >= 4){
+        double ek = evaluacionTS(X,model);
+        //Actualizar buffer.
+        buffer[0] = buffer[1];
+        buffer[1] = buffer[2];
+        buffer[2] = buffer[3];
+        buffer[3] = buffer[4];
+        buffer[4] =  ek;
+        //Entrada
+        X[0] = buffer[0];
+        X[1] = buffer[1];
+        //Calculo intervalos
+        aux = defIntervalo(model,alpha,X);
+        output.inferior[3] = aux.inferior;
+        output.superior[3] = aux.superior;
+    }
+    if (nPasos >= 5){
+        double ek = evaluacionTS(X,model);
+        //Actualizar buffer.
+        buffer[0] = buffer[1];
+        buffer[1] = buffer[2];
+        buffer[2] = buffer[3];
+        buffer[3] = buffer[4];
+        buffer[4] =  ek;
+        //Entrada
+        X[0] = buffer[0];
+        X[1] = buffer[1];
+        //Calculo intervalos
+        aux = defIntervalo(model,alpha,X);
+        output.inferior[4] = aux.inferior;
+        output.superior[4] = aux.superior;
+    }
+    return output;
+}
+
+//
+
+
+
+
+
+/*
+ * MAIN
+ */
 int main() {
     cout << "Hello, World!\n";
     //Declaracion del modelo TS.
-    modeloTS MError;
-    //Parametros del modelo de Takagi & Sugeno.
-    // A.
-    MError.a[0][0] = 1.2459;
-    MError.a[0][1] = 0.4140;
-    MError.a[1][0] = 0.8229;
-    MError.a[1][1] = 1.0407;
-    MError.a[2][0] = 0.5744;
-    MError.a[2][1] = 2.6061;
-    MError.a[3][0] = 2.126;
-    MError.a[3][1] = 0.9575;
-    MError.a[4][0] = 0.9914;
-    MError.a[4][1] = 0.5358;
-    // B.
-    MError.b[0][0] = 0.0382;
-    MError.b[0][1] = -0.0229;
-    MError.b[1][0] = -0.4287;
-    MError.b[1][1] = -0.3855;
-    MError.b[2][0] = -0.0065;
-    MError.b[2][1] = 0.7081;
-    MError.b[3][0] = 0.7455;
-    MError.b[3][1] = 0.4190;
-    MError.b[4][0] = 0.2164;
-    MError.b[4][1] = -0.3254;
-    //g
-    MError.g[0][0] = -0.0466;
-    MError.g[0][1] = 0.4842;
-    MError.g[0][2] = -0.0179;
-    MError.g[1][0] = -0.0562;
-    MError.g[1][1] = 0.4044;
-    MError.g[1][2] = -0.0031;
-    MError.g[2][0] = 0.1970;
-    MError.g[2][1] = 0.2569;
-    MError.g[2][2] = -0.3562;
-    MError.g[3][0] = -0.1258;
-    MError.g[3][1] = 0.7206;
-    MError.g[3][2] = -0.0211;
-    MError.g[4][0] = -0.0432;
-    MError.g[4][1] = 0.4960;
-    MError.g[4][2] = -0.0217;
-    // P
-    // h
-    // mu
-    MError.mu = 0.0072;
-    //std
-    MError.std = 0.3201;
-    //Sigma
-    double valorSigma[5] = {0.8531,1.0669,2.1429,1.2847,1.221};
-    MError.sigma[0,1,2,3,4] = valorSigma[0,1,2,3,4];
-    double prueba;
-    double X[2] = {0.1,0.1};
-    prueba = evaluacionTS(X,MError);
-    cout << prueba;
+    modeloTS MError = inicializarModelo();
+    intervalos prueba;
+    double X[2] = {1,2};
+    prueba = defIntervalo(MError, 0.5 , X);
+    cout << prueba.superior << '\n';
+    cout << prueba.inferior << '\n';
     return 0;
 }
+

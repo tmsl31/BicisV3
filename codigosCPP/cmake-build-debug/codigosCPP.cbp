@@ -80,6 +80,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/tlara/OneDrive/Documentos/GitHub/BicisV3/codigosCPP/funciones.h">
+			<Option target="codigosCPP"/>
+		</Unit>
 		<Unit filename="C:/Users/tlara/OneDrive/Documentos/GitHub/BicisV3/codigosCPP/main.cpp">
 			<Option target="codigosCPP"/>
 		</Unit>
