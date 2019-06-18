@@ -1,7 +1,14 @@
 # BicisV3
 ## En Desarrollo
 
-Contiene los modelos de TS y lineales desarrollados para la determinación de cotas de varianza útiles en el desarrollo de control predictivo rousto a implementar en el desarrollo de un sistema de controles para pelotones de bicicletas.
+Contiene los modelos de TS y lineales desarrollados para la determinación de cotas de varianza útiles en el desarrollo de control predictivo robusto a implementar en el desarrollo de un sistema de controles para pelotones de bicicletas.
+
+Carpetas:
+* Los archivos sin carperta corresponden a la funciones utilizadas para la obteción de los modelos de Takagi y Sugeno.
+* Los datos de error utilizados se encuentran en *datosError*
+* Los esquemas de simulación así como las funciones asociadas se encuentran en la carpeta *simulaciones*
+* Las funciones pasadas a C++ para su uso en Omnetpp se encuentran en *funcionesCPP*
+
 
 Referencias:
 ### Sistema de pelotones:
