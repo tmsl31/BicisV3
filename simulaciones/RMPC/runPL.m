@@ -28,6 +28,7 @@ ts = input('Tiempo de muestreo (s): ');
 simulationTime = 60 * input('Tiempo simulacion (min): ');
 v0Leader = input('Velocidad lider (m/s)(2.7,4.16,5)');
 transmissionDelay = input('Delay (ms)')/1000;
+PER = input('PER:');
 %Buffer de error (tamano 5 por los regresores)
 bufferError = zeros(1,5);
 
@@ -73,7 +74,7 @@ v0Bici4 = 1;
 %% SIMULACION
 
 %SIMULAR.
-sim('simulDelayRMPC.slx')
+sim('packetLoss.slx')
 
 %% GRAFICOS SIMULACION
 

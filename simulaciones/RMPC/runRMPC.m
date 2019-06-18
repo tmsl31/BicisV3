@@ -1,5 +1,6 @@
 %%Simulacion de sistema RMPC.
 clear;
+close all
 % Variables globales.
 global bufferError contador alpha d Wx Wv Wu ts
 %%SCRIPT
