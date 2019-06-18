@@ -48,7 +48,6 @@ function YPredict = evaluacionTS(X,model)
         else
             disp('Error formulacion')
         end
-        disp(yr);
         YPredict(muestra,1) = Wn*yr;
     end
 end

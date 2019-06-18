@@ -14,7 +14,7 @@ function [uDes] = solveRMPC(xi,vi,xAnterior,vAnterior,vLider,errorAnterior,model
     
     %Variables globales.
     global Wx Wv Wu contador
-    
+    disp(contador);
     %Actualizacion del buffer de error con el nuevo error obtenido.
     actualizarBufferError(errorAnterior);
     if (contador >= 6)

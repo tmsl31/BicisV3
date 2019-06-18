@@ -83,8 +83,6 @@ function [phiT] = proyeccionEntrada(betar,z)
     count = 1;
     while count <= betar
         beta = betar(count);
-        disp(size(beta))
-        disp(size(z))
         phiT(count,:) = beta * z;
         count = count + 1;
     end
