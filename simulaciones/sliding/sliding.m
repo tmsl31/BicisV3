@@ -3,6 +3,4 @@
 %Aceleracion del lider
 leaderAcceleration = 1;
 
-
-
 %%
