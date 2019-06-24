@@ -1,8 +1,25 @@
 #include <iostream>
 #include "tsType.h"
 #include "funciones.h"
+#include "Galgo.hpp"
 #include <cmath>
+#include "constantesRMPC.h"
 using namespace std;
+
+
+
+
+
+
+/*
+ * Funcionamiento del algoritmo genetico.
+ */
+
+
+
+// NB: a penalty will be applied if one of the constraints is > 0
+// using the default adaptation to constraint(s) method
+
 
 /*
  * Metodos.

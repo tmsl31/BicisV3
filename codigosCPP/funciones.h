@@ -7,6 +7,11 @@
 
 #include "tsType.h"
 #include<bits/stdc++.h>
+#include "Galgo.hpp"
+#include "constantesRMPC.h"
+
+
+//
 
 //Metodo que inicializa el modelo de Error.
 modeloTS inicializarModelo(){
@@ -261,5 +266,49 @@ intervalos defIntervalo(modeloTS model, double alpha, double X[2]){
     //Output.
     return Ints;
 }
+
+
+
+
+//DEFINICION  DE LA FUNCION DE COSTOS A 5 PASOS.
+
+template <typename T>
+class MyObjective
+{
+public:
+    //Definicion de la funcion objetivo, para el caso del controlador RMPC utilizado se realizan las pruebas utilizando
+    //predicciones a cinco pasos, por lo que este es el numero de pasos escogidos para la funcion de costos.
+
+    static std::vector<T> Objective(const std::vector<T>& x)
+    {
+        if (nPasos = 2){
+            T obj = -(Wx*((x[0]-x[2]+factX)^2 + (x[4]-x[6]+factX)^2) + Wv*((x[1]-vl)^2 + (x[5]-vl)^2) + Wu*((x[9]-x[8])^2));
+
+        }
+        else if (nPasos == 5){
+            T obj = -(Wx*(pow(x[0]-x[2]+factX,2) + pow(x[4]-x[6]+factX,2)+ pow(x[8]-x[10]+factX,2) + pow(x[12]-x[14]+factX,2) + pow(x[16]-x[18]+factX,2)) + Wv*(pow(x[1]-vl,2) + pow(x[5]-vl,2) + pow(x[9]-vl,2) + pow(x[13]-vl,2) + pow(x[17]-vl,2)) + Wu*(pow(x[21]-x[20],2) + pow(x[22]-x[21],2) + pow(x[23]-x[22],2) + pow(x[24]-x[23],2)));
+        }
+
+    }
+    // NB: GALGO maximize by default so we will maximize -f(x,y)
+};
+
+//FUNCION QUE REALIZA LA RESOLUCION DEL PROBLEMA DE OPTIMIZACION.
+double solveRMPC (){
+
+    //Modificacion de las restricciones utilizando Takagi Sugeno (comprimir Restricciones)
+
+    //Clase de las restricciones.
+    template <typename T>
+    std::vector<T> MyConstraint(const std::vector<T>& x)
+    {
+        return {x[0]*x[1]+x[0]-x[1]+1.5,10-x[0]*x[1]};
+    }
+    //
+
+
+}
+
+
 
 #endif //CODIGOSCPP_FUNCIONES_H
