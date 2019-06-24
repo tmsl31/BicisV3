@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/tlara/OneDrive/Documentos/GitHub/BicisV3/codigosCPP/main.cpp" "C:/Users/tlara/OneDrive/Documentos/GitHub/BicisV3/codigosCPP/cmake-build-debug/CMakeFiles/codigosCPP.dir/main.cpp.obj"
+  "/home/sandra/Documents/u/bicis/BicisV3/codigosCPP/main.cpp" "/home/sandra/Documents/u/bicis/BicisV3/codigosCPP/cmake-build-debug/CMakeFiles/codigosCPP.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

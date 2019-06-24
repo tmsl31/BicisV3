@@ -2,8 +2,6 @@
 #include "tsType.h"
 #include "funciones.h"
 #include <cmath>
-#include "Galgo.hpp"
-
 using namespace std;
 
 /*
@@ -101,7 +99,7 @@ intervalos2 intervalosSimulacion(modeloTS model, int nPasos, double buffer[5],do
  * MAIN
  */
 int main() {
-    cout << "Hello, World!\n";
+    cout << "Pruebas.\n";
     //Declaracion del modelo TS.
     modeloTS MError = inicializarModelo();
     intervalos prueba;

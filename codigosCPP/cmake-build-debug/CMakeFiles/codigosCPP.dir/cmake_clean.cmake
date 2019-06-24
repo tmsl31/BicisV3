@@ -1,9 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/codigosCPP.dir/main.cpp.obj"
+  "CMakeFiles/codigosCPP.dir/main.cpp.o"
   "codigosCPP.pdb"
-  "codigosCPP.exe"
-  "codigosCPP.exe.manifest"
-  "libcodigosCPP.dll.a"
+  "codigosCPP"
 )
 
 # Per-language clean rules from dependency scanning.
