@@ -536,14 +536,14 @@ double solveRMPC (double xi, double vi, double xAnterior,  double vAnterior, dou
         vl = vLider;
         //Definicion de las igualdades a incluir en las restricciones.
         //(Actualizacion de los valores anteriores).
-        modDatos(double xi, double vi, double xAnterior,  double vAnterior);
+        modDatos(xi,vi,xAnterior,vAnterior);
 
         //Compresion de las desigualdades
         // (modificacion de los limites.
         modDesigualdades(intervalosPasos);
         //Optimizacion.
         //Definicion de los parametros a ingresar. 24
-        double par1[25] = {xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,0.5,0.5,0.5,0.5,0.5};
+        galgo::Parameter<double> par1({xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,0.5,0.5,0.5,0.5,0.5});
         // Inicializar algoritmo genetico.
         galgo::GeneticAlgorithm<double> ga(MyObjective<double>::Objective,100,50,true,par1);
         // Fijar las restricciones.
@@ -564,10 +564,7 @@ double solveRMPC (double xi, double vi, double xAnterior,  double vAnterior, dou
 
 }// Fin de la funcion solveRMPC.
 
-//Metodo para  la solucion a partir de algoritmos geneticos.
-double solveGA(){
 
-}
 
 
 #endif //CODIGOSCPP_FUNCIONES_H
