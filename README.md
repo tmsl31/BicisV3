@@ -22,3 +22,7 @@ Systems Based on Interval Fuzzy Models, en 2018 IEEE International Conference on
 
 [3] I. Skrjanc, Fuzzy confidence interval for pH titration curve", Applied mathematical modelling, vol. 35,
 n.o 8, pages. 4083-4090, 2011.
+
+### Resolución mediante algoritmos geneticos.
+
+[1] GALGO-2.0. Enlace: https://github.com/olmallet81/GALGO-2.0
