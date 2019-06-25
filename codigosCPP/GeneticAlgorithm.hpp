@@ -59,7 +59,7 @@ public:
    template <int...N>
    GeneticAlgorithm(Func<T> objective, int popsize, int nbgen, bool output, const Parameter<T,N>&...args);
    // run genetic algorithm
-   void run();
+   double run();
    // return best chromosome 
    const CHR<T>& result() const;
 
@@ -173,7 +173,7 @@ void GeneticAlgorithm<T>::check() const
    
 // run genetic algorithm
 template <typename T>
-void GeneticAlgorithm<T>::run()
+double GeneticAlgorithm<T>::run()
 {
    // checking inputs validity
    this->check();
@@ -232,7 +232,11 @@ void GeneticAlgorithm<T>::run()
          }
          std::cout << "\n"; 
       }
-   }   
+   }
+    //Obtencion de los mejores parametros.
+    std::vector<T> bestParam = pop(0)->getParam();
+    //Obtencion de la aceleracion a aplicar.
+    return bestParam[20];
 }
 
 /*-------------------------------------------------------------------------------------------------*/

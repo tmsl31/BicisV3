@@ -13,20 +13,10 @@
   <component name="ChangeListManager">
     <list default="true" id="2f427a0c-b87e-4e3b-978a-8d19a183c764" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/codigosCPP.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/codigosCPP.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/codigosCPP.dir/main.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GeneticAlgorithm.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/GeneticAlgorithm.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/codigosCPP.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/codigosCPP.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constantesRMPC.h" beforeDir="false" afterPath="$PROJECT_DIR$/constantesRMPC.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/funciones.h" beforeDir="false" afterPath="$PROJECT_DIR$/funciones.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/galgo/Chromosome.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Chromosome.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/galgo/Converter.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Converter.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/galgo/Evolution.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Evolution.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/galgo/Galgo.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Galgo.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/galgo/GeneticAlgorithm.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/GeneticAlgorithm.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/galgo/Parameter.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Parameter.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/galgo/Population.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Population.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/galgo/Randomize.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Randomize.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/galgo/example.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/example.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -41,12 +31,12 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
+            <state relative-caret-position="90">
+              <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="20" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -57,17 +47,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/constantesRMPC.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Chromosome.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="7" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+            <state relative-caret-position="442">
+              <caret line="40" column="17" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -75,15 +56,29 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/funciones.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="443">
-              <caret line="296" column="20" lean-forward="true" selection-start-line="296" selection-start-column="20" selection-end-line="296" selection-end-column="20" />
+            <state relative-caret-position="368">
+              <caret line="551" column="19" lean-forward="true" selection-start-line="551" selection-start-column="19" selection-end-line="551" selection-end-column="19" />
               <folding>
                 <element signature="e#105#124#0" expanded="true" />
-                <element signature="e#3320#4622#0" />
-                <element signature="e#4624#6781#0" />
-                <element signature="e#6783#7290#0" />
-                <element signature="e#8588#8591#0" expanded="true" />
+                <element signature="e#293#296#0" expanded="true" />
+                <element signature="e#1153#1165#0" expanded="true" />
+                <element signature="e#204#3159#0" />
+                <element signature="e#3161#3372#0" />
+                <element signature="e#3374#4676#0" />
+                <element signature="e#4678#6835#0" />
+                <element signature="e#6837#7344#0" />
+                <element signature="e#8851#11246#0" />
+                <element signature="e#12930#12978#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/GeneticAlgorithm.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="53" column="40" lean-forward="true" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -91,8 +86,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/example.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="4" selection-start-line="4" selection-end-line="4" selection-end-column="20" />
+            <state relative-caret-position="398">
+              <caret line="40" selection-start-line="40" selection-end-line="40" />
+              <folding>
+                <element signature="e#359#371#0" expanded="true" />
+                <element signature="e#813#825#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -113,9 +112,11 @@
         <option value="$PROJECT_DIR$/tsType.h" />
         <option value="$PROJECT_DIR$/galgo/example.cpp" />
         <option value="$PROJECT_DIR$/cmake-build-debug/constantesRMPC.h" />
-        <option value="$PROJECT_DIR$/constantesRMPC.h" />
         <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/example.cpp" />
+        <option value="$PROJECT_DIR$/constantesRMPC.h" />
         <option value="$PROJECT_DIR$/funciones.h" />
+        <option value="$PROJECT_DIR$/GeneticAlgorithm.hpp" />
       </list>
     </option>
   </component>
@@ -131,6 +132,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -142,13 +144,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/galgo" />
+    <property name="last_opened_file_path" value="$USER_HOME$/CLionProjects/pruebaGalgo" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -201,19 +202,20 @@
       <workItem from="1560888426851" duration="564000" />
       <workItem from="1560889044667" duration="1487000" />
       <workItem from="1561407344914" duration="42000" />
-      <workItem from="1561407402146" duration="5920000" />
+      <workItem from="1561407402146" duration="6101000" />
+      <workItem from="1561468169311" duration="15903000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26797000" />
+    <option name="totallyTimeSpent" value="42881000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="59" y="25" width="1861" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16088155" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49892008" visible="true" weight="0.16253443" />
+      <window_info id="Structure" order="1" sideWeight="0.5010799" side_tool="true" weight="0.16253443" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -248,18 +250,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/example.cpp" />
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/codigosCPP.cbp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="21" column="34" lean-forward="true" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="4" selection-start-line="4" selection-end-line="4" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -270,33 +264,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/constantesRMPC.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        <state relative-caret-position="90">
+          <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="20" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/example.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="398">
+          <caret line="40" selection-start-line="40" selection-end-line="40" />
+          <folding>
+            <element signature="e#359#371#0" expanded="true" />
+            <element signature="e#813#825#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/constantesRMPC.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="40" column="17" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GeneticAlgorithm.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="53" column="40" lean-forward="true" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/funciones.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="296" column="20" lean-forward="true" selection-start-line="296" selection-start-column="20" selection-end-line="296" selection-end-column="20" />
+        <state relative-caret-position="368">
+          <caret line="551" column="19" lean-forward="true" selection-start-line="551" selection-start-column="19" selection-end-line="551" selection-end-column="19" />
           <folding>
             <element signature="e#105#124#0" expanded="true" />
-            <element signature="e#3320#4622#0" />
-            <element signature="e#4624#6781#0" />
-            <element signature="e#6783#7290#0" />
-            <element signature="e#8588#8591#0" expanded="true" />
+            <element signature="e#293#296#0" expanded="true" />
+            <element signature="e#1153#1165#0" expanded="true" />
+            <element signature="e#204#3159#0" />
+            <element signature="e#3161#3372#0" />
+            <element signature="e#3374#4676#0" />
+            <element signature="e#4678#6835#0" />
+            <element signature="e#6837#7344#0" />
+            <element signature="e#8851#11246#0" />
+            <element signature="e#12930#12978#0" />
           </folding>
         </state>
       </provider>

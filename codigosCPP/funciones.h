@@ -9,9 +9,104 @@
 #include<bits/stdc++.h>
 #include "Galgo.hpp"
 #include "constantesRMPC.h"
+#include <vector>
+
+/*
+ * Funciones de GALGO.
+ */
+
+//Definicion de la funcion objetivo
+template <class T>
+class MyObjective
+{
+public:
+    //Definicion de la funcion objetivo, para el caso del controlador RMPC utilizado se realizan las pruebas utilizando
+    //predicciones a cinco pasos, por lo que este es el numero de pasos escogidos para la funcion de costos.
+
+    static std::vector<T> Objective(const std::vector<T>& x)
+    {
+        // NB: GALGO maximize by default so we will maximize -f(x,y)
+        T obj = -(Wx*(pow(x[0]-x[2]+factX,2) + pow(x[4]-x[6]+factX,2)+ pow(x[8]-x[10]+factX,2) + pow(x[12]-x[14]+factX,2) + pow(x[16]-x[18]+factX,2)) + Wv*(pow(x[1]-vl,2) + pow(x[5]-vl,2) + pow(x[9]-vl,2) + pow(x[13]-vl,2) + pow(x[17]-vl,2)) + Wu*(pow(x[21]-x[20],2) + pow(x[22]-x[21],2) + pow(x[23]-x[22],2) + pow(x[24]-x[23],2)));
+
+    }//Fin de static.
+};//Fin de Public.
+
+template<typename T>
+std::vector<T> MyConstraint(const std::vector<T> &x) {
+    //Restricciones deben ser colocadas en la forma f(vec(x)) <= 0.
+    return { //Limites inferiores aceleracion
+            -1 * x[20] - minU[0],
+            -1 * x[21] - minU[1],
+            -1 * x[22] - minU[2],
+            -1 * x[23] - minU[3],
+            -1 * x[24] - minU[4],
+            -1 * x[25] - minU[0],
+            -1 * x[26] - minU[1],
+            -1 * x[27] - minU[2],
+            -1 * x[28] - minU[3],
+            -1 * x[29] - minU[4],
+            //Limites superiores aceleracion.
+            x[20] - maxU[0],
+            x[21] - maxU[1],
+            x[22] - maxU[2],
+            x[23] - maxU[3],
+            x[24] - maxU[4],
+            x[25] - maxU[0],
+            x[26] - maxU[1],
+            x[27] - maxU[2],
+            x[28] - maxU[3],
+            x[29] - maxU[4],
+            //Condiciones de igualdad.
+            //Variables conocidas.
+            x[0] - xActual - ts * vActual - tolIgualdad,
+            x[1] - x[20] - vActual - tolIgualdad,
+            x[2] - xiAnterior - ts * viAnterior - tolIgualdad,
+            x[3] - x[25] - viAnterior - tolIgualdad,
+            //Restricciones de posicion.
+            -1*x[0] - x[1] + x[4] - tolIgualdad,
+            -1*x[2] - x[3] + x[6] - tolIgualdad,
+            -1*x[4] - x[5] + x[8] - tolIgualdad,
+            -1*x[6] - x[7] + x[10] - tolIgualdad,
+            -1*x[8] - x[9] + x[12] - tolIgualdad,
+            -1*x[10] - x[11] + x[14] - tolIgualdad,
+            -1*x[12] - x[13] + x[16] - tolIgualdad,
+            -1*x[14] - x[15] + x[18] - tolIgualdad,
+            //Restricciones de velocidad.
+            -1*x[1] + x[5] - x[21] - tolIgualdad,
+            -1*x[3] + x[7] - x[26] - tolIgualdad,
+            -1*x[5] + x[9] - x[22] - tolIgualdad,
+            -1*x[7] + x[11] - x[27] - tolIgualdad,
+            -1*x[9] + x[13] - x[23] - tolIgualdad,
+            -1*x[11] + x[15] - x[28] - tolIgualdad,
+            -1*x[13] + x[18] - x[24] - tolIgualdad,
+            -1*x[15] + x[21] - x[29] - tolIgualdad,
+            //Limite inferior delta U.
+            //             x[20] - x[21] - 1.5,
+            //             x[21] - x[22] - 1.5,
+            //             x[22] - x[23] - 1.5,
+            //             x[23] - x[24] - 1.5,
+            //             x[24] - x[25] - 1.5,
+            //             x[25] - x[26] - 1.5,
+            //             x[26] - x[27] - 1.5,
+            //             x[27] - x[28] - 1.5,
+            //             x[28] - x[29] - 1.5,
+            //             //Limite superior delta U.
+            //             x[21] - x[20] - 0.75,
+            //             x[22] - x[21] - 0.75,
+            //             x[23] - x[22] - 0.75,
+            //             x[24] - x[23] - 0.75,
+            //             x[25] - x[24] - 0.75,
+            //             x[26] - x[25] - 0.75,
+            //             x[27] - x[26] - 0.75,
+            //             x[28] - x[27] - 0.75,
+            //             x[29] - x[28] - 0.75,
+            //             // Fin de las desigualdades.
+    };
+}
 
 
-//
+
+
 
 //Metodo que inicializa el modelo de Error.
 modeloTS inicializarModelo(){
@@ -141,7 +236,7 @@ double evaluacionTS(double X[2] , modeloTS model){
     //Definiciones de variables.
     int nEntradas = 2;
     int nReglas = 5;
-    int nParametros = 3;
+    //int nParametros = 3;
     double W[5] =  {1,1,1,1,1};
     double suma = 0;
     double mu[nReglas][nEntradas];
@@ -186,7 +281,7 @@ double incerteza(double X[2],modeloTS model){
     int nReglas = 5;
     double W[5] =  {1,1,1,1,1};
     double mu[nReglas][nEntradas];
-    double suma = 0;
+    double suma1 = 0;
     double phiT[nReglas][nParametros];
     double Ir[nReglas];
 
@@ -204,10 +299,10 @@ double incerteza(double X[2],modeloTS model){
     //Normalizacion de los grados de activacion.
     if (!((W[0] ==0) & (W[1] ==0) & (W[2] ==0) & (W[3] ==0) & (W[4] ==0))){
         for (double i : W) {
-            suma = suma + i;
+            suma1 = suma1 + i;
         }
         for (double & i : W) {
-            i = i / suma;
+            i = i / suma1;
         }
     }
     //Proyeccion de la entrada.
@@ -270,45 +365,209 @@ intervalos defIntervalo(modeloTS model, double alpha, double X[2]){
 
 
 
-//DEFINICION  DE LA FUNCION DE COSTOS A 5 PASOS.
 
-template <typename T>
-class MyObjective
-{
-public:
-    //Definicion de la funcion objetivo, para el caso del controlador RMPC utilizado se realizan las pruebas utilizando
-    //predicciones a cinco pasos, por lo que este es el numero de pasos escogidos para la funcion de costos.
-
-    static std::vector<T> Objective(const std::vector<T>& x)
-    {
-        if (nPasos = 2){
-            T obj = -(Wx*((x[0]-x[2]+factX)^2 + (x[4]-x[6]+factX)^2) + Wv*((x[1]-vl)^2 + (x[5]-vl)^2) + Wu*((x[9]-x[8])^2));
-
-        }
-        else if (nPasos == 5){
-            T obj = -(Wx*(pow(x[0]-x[2]+factX,2) + pow(x[4]-x[6]+factX,2)+ pow(x[8]-x[10]+factX,2) + pow(x[12]-x[14]+factX,2) + pow(x[16]-x[18]+factX,2)) + Wv*(pow(x[1]-vl,2) + pow(x[5]-vl,2) + pow(x[9]-vl,2) + pow(x[13]-vl,2) + pow(x[17]-vl,2)) + Wu*(pow(x[21]-x[20],2) + pow(x[22]-x[21],2) + pow(x[23]-x[22],2) + pow(x[24]-x[23],2)));
-        }
-
-    }
-    // NB: GALGO maximize by default so we will maximize -f(x,y)
-};
 
 //FUNCION QUE REALIZA LA RESOLUCION DEL PROBLEMA DE OPTIMIZACION.
-double solveRMPC (){
 
-    //Modificacion de las restricciones utilizando Takagi Sugeno (comprimir Restricciones)
+//Funcion que actualiza el buffer de error.
+void actualizarBufferError(double bufferError[5], double nuevoError){
+    //Funcion que actualiza el buffer de error.
 
-    //Clase de las restricciones.
-    template <typename T>
-    std::vector<T> MyConstraint(const std::vector<T>& x)
-    {
-        return {x[0]*x[1]+x[0]-x[1]+1.5,10-x[0]*x[1]};
-    }
-    //
-
-
+    //Re asignacion de valores antiguos.
+    bufferError[1] = bufferError[0];
+    bufferError[2] = bufferError[1];
+    bufferError[3] = bufferError[2];
+    bufferError[4] = bufferError[3];
+    //Asignacion del nuevo valor.
+    bufferError[0] = nuevoError;
 }
 
+
+// Funcion que calcule los intervalos a usar para la simulacion.
+intervalos2 intervalosSimulacion(modeloTS model, int nPasos, double buffer[5],double alpha){
+
+    //Definiciones
+    double X[2];
+    intervalos aux;
+    intervalos2 output;
+
+    //Entradas un paso.
+    X[0] = buffer[0];
+    X[1] = buffer[1];
+
+    if (nPasos >= 1){
+        aux = defIntervalo(model,alpha,X);
+        output.inferior[0] = aux.inferior;
+        output.superior[0] = aux.superior;
+    }
+    if (nPasos >= 2){
+        double ek = evaluacionTS(X,model);
+        //Actualizar buffer.
+        buffer[0] = buffer[1];
+        buffer[1] = buffer[2];
+        buffer[2] = buffer[3];
+        buffer[3] = buffer[4];
+        buffer[4] =  ek;
+        //Entrada
+        X[0] = buffer[0];
+        X[1] = buffer[1];
+        //Calculo intervalos
+        aux = defIntervalo(model,alpha,X);
+        output.inferior[1] = aux.inferior;
+        output.superior[1] = aux.superior;
+    }
+    if (nPasos >= 3) {
+        double ek = evaluacionTS(X,model);
+        //Actualizar buffer.
+        buffer[0] = buffer[1];
+        buffer[1] = buffer[2];
+        buffer[2] = buffer[3];
+        buffer[3] = buffer[4];
+        buffer[4] =  ek;
+        //Entrada
+        X[0] = buffer[0];
+        X[1] = buffer[1];
+        //Calculo intervalos
+        aux = defIntervalo(model,alpha,X);
+        output.inferior[2] = aux.inferior;
+        output.superior[2] = aux.superior;
+    }
+    if (nPasos >= 4){
+        double ek = evaluacionTS(X,model);
+        //Actualizar buffer.
+        buffer[0] = buffer[1];
+        buffer[1] = buffer[2];
+        buffer[2] = buffer[3];
+        buffer[3] = buffer[4];
+        buffer[4] =  ek;
+        //Entrada
+        X[0] = buffer[0];
+        X[1] = buffer[1];
+        //Calculo intervalos
+        aux = defIntervalo(model,alpha,X);
+        output.inferior[3] = aux.inferior;
+        output.superior[3] = aux.superior;
+    }
+    if (nPasos >= 5){
+        double ek = evaluacionTS(X,model);
+        //Actualizar buffer.
+        buffer[0] = buffer[1];
+        buffer[1] = buffer[2];
+        buffer[2] = buffer[3];
+        buffer[3] = buffer[4];
+        buffer[4] =  ek;
+        //Entrada
+        X[0] = buffer[0];
+        X[1] = buffer[1];
+        //Calculo intervalos
+        aux = defIntervalo(model,alpha,X);
+        output.inferior[4] = aux.inferior;
+        output.superior[4] = aux.superior;
+    }
+    return output;
+}
+
+//Metodo que realiza la modificacion de las desigualdades.
+void modDesigualdades(intervalos2 intervalosError){
+        // Metodo que recibe los intervalos de error y modifica las restricciones de desigualdad para la resolucion del
+        // poblema de optimizacion de RMPC.
+
+        //Modificacion de limites inferiores.
+        minU[0] = minUAbs[0] + intervalosError.inferior[0];
+        minU[1] = minUAbs[1] + intervalosError.inferior[1];
+        minU[2] = minUAbs[2] + intervalosError.inferior[2];
+        minU[3] = minUAbs[3] + intervalosError.inferior[3];
+        minU[4] = minUAbs[4] + intervalosError.inferior[4];
+        //Modificacion de los limites superiores.
+        maxU[0] = maxUAbs[0] + intervalosError.superior[0];
+        maxU[1] = maxUAbs[1] + intervalosError.superior[1];
+        maxU[2] = maxUAbs[2] + intervalosError.superior[2];
+        maxU[3] = maxUAbs[3] + intervalosError.superior[3];
+        maxU[4] = maxUAbs[4] + intervalosError.superior[4];
+        };
+
+void modDatos(double xi, double vi, double xAnterior,  double vAnterior){
+    //Metodo que modifique los datos con el fin de definir las igualdades.
+
+    //Propia bicicleta.
+    xActual = xi;
+    vActual = vi;
+    //Bicicleta de adelante.
+    xiAnterior = xAnterior;
+    viAnterior = vAnterior;
+}
+
+
+double solveRMPC (double xi, double vi, double xAnterior,  double vAnterior, double vLider, double errorAnterior, modeloTS model, double Ldes, double bufferError[5], int contador, double alpha){
+    //Funcion que realiza la resolucion del problema de optimizacion.
+
+    /* Parametros:_
+     * xi -> Posicion de la bicicleta i (misma)
+     * vi -> Velocidad de la bicicleta i (misma).
+     * xAnterior -> Posicion de la bicicleta anterior.
+     * vAnterior -> Velocidad de la bicicleta anterior.
+     * errorAnterior -> Error de actuacion en k-1.
+     * model -> Estructura que contenga los parametros del modelo de Takagi-Sugeno.
+     * nPasos -> Numero de pasos de prediccion del controlador RMPC.
+     * Ldes -> Spacing deseadi,
+     * bufferError -> Variable global, buffer que almacena los cinco ultimos valores del error.
+     * contador -> Contador del numero de iteracion, para ver cuando empezar a predecir.
+     */
+
+    //Definicion de variables.
+    intervalos2 intervalosPasos;  // Variable que almacene los intervalos.
+    double buffer[5];             // Copia del buffer de errores.
+    double uDes;                  // Salida. Aceleracion deseada.
+
+    //Actualizacion del buffer de error.
+    actualizarBufferError(bufferError,errorAnterior);
+    //Calcular prediccion si el contador llega a la sexta iteracion.
+    if (contador >= 6){
+        //Copiar buffer de error.
+        buffer[0] = bufferError[0];
+        buffer[1] = bufferError[1];
+        buffer[2] = bufferError[2];
+        buffer[3] = bufferError[3];
+        buffer[4] = bufferError[4];
+        // Calculo de los intervalos.
+        intervalosPasos = intervalosSimulacion(model, nPasos, buffer, alpha);
+        //Definicion de la funcion objetivo a utilizar.
+        //(Cambio velocidad del lider).
+        vl = vLider;
+        //Definicion de las igualdades a incluir en las restricciones.
+        //(Actualizacion de los valores anteriores).
+        modDatos(double xi, double vi, double xAnterior,  double vAnterior);
+
+        //Compresion de las desigualdades
+        // (modificacion de los limites.
+        modDesigualdades(intervalosPasos);
+        //Optimizacion.
+        //Definicion de los parametros a ingresar. 24
+        double par1[25] = {xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,xi,vi,0.5,0.5,0.5,0.5,0.5};
+        // Inicializar algoritmo genetico.
+        galgo::GeneticAlgorithm<double> ga(MyObjective<double>::Objective,100,50,true,par1);
+        // Fijar las restricciones.
+        ga.Constraint = MyConstraint;
+        //Correr el algoritmo
+        uDes = ga.run();
+        return uDes;
+
+    }//Fin de if.
+    else{
+        uDes = 0;
+        return uDes;
+    }
+    //Aumentar el contador de iteraciones.
+    contador += 1;
+
+
+
+}// Fin de la funcion solveRMPC.
+
+//Metodo para  la solucion a partir de algoritmos geneticos.
+double solveGA(){
+
+}
 
 
 #endif //CODIGOSCPP_FUNCIONES_H
