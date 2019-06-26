@@ -11,9 +11,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f427a0c-b87e-4e3b-978a-8d19a183c764" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/funciones.h" beforeDir="false" afterPath="$PROJECT_DIR$/funciones.h" afterDir="false" />
-    </list>
+    <list default="true" id="2f427a0c-b87e-4e3b-978a-8d19a183c764" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +40,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/constantesRMPC.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
+            <state relative-caret-position="600">
               <caret line="40" column="17" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
             </state>
           </provider>
@@ -51,19 +49,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/funciones.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="387">
-              <caret line="545" column="121" selection-start-line="545" selection-start-column="8" selection-end-line="545" selection-end-column="121" />
+            <state relative-caret-position="630">
+              <caret line="42" column="28" selection-start-line="42" selection-start-column="28" selection-end-line="42" selection-end-column="28" />
               <folding>
                 <element signature="e#105#124#0" expanded="true" />
-                <element signature="e#293#296#0" expanded="true" />
-                <element signature="e#1153#1165#0" expanded="true" />
-                <element signature="e#204#3159#0" />
-                <element signature="e#3161#3372#0" />
-                <element signature="e#3374#4676#0" />
-                <element signature="e#4678#6835#0" />
-                <element signature="e#6837#7344#0" />
-                <element signature="e#8851#11246#0" />
-                <element signature="e#12930#12978#0" />
               </folding>
             </state>
           </provider>
@@ -72,8 +61,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GeneticAlgorithm.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="53" column="40" lean-forward="true" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
+            <state relative-caret-position="795">
+              <caret line="53" column="40" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -81,7 +70,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/example.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="398">
+            <state relative-caret-position="600">
               <caret line="40" selection-start-line="40" selection-end-line="40" />
               <folding>
                 <element signature="e#359#371#0" expanded="true" />
@@ -199,16 +188,18 @@
       <workItem from="1561407344914" duration="42000" />
       <workItem from="1561407402146" duration="6101000" />
       <workItem from="1561468169311" duration="17329000" />
+      <workItem from="1561572759083" duration="1372000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44307000" />
+    <option name="totallyTimeSpent" value="45679000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="59" y="25" width="1861" height="1055" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49892008" visible="true" weight="0.16253443" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49892008" visible="true" weight="0.16418733" />
       <window_info id="Structure" order="1" sideWeight="0.5010799" side_tool="true" weight="0.16253443" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -268,9 +259,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/constantesRMPC.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="40" column="17" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GeneticAlgorithm.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="795">
+          <caret line="53" column="40" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/example.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
+        <state relative-caret-position="600">
           <caret line="40" selection-start-line="40" selection-end-line="40" />
           <folding>
             <element signature="e#359#371#0" expanded="true" />
@@ -279,35 +284,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/constantesRMPC.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="40" column="17" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GeneticAlgorithm.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="53" column="40" lean-forward="true" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/funciones.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="545" column="121" selection-start-line="545" selection-start-column="8" selection-end-line="545" selection-end-column="121" />
+        <state relative-caret-position="630">
+          <caret line="42" column="28" selection-start-line="42" selection-start-column="28" selection-end-line="42" selection-end-column="28" />
           <folding>
             <element signature="e#105#124#0" expanded="true" />
-            <element signature="e#293#296#0" expanded="true" />
-            <element signature="e#1153#1165#0" expanded="true" />
-            <element signature="e#204#3159#0" />
-            <element signature="e#3161#3372#0" />
-            <element signature="e#3374#4676#0" />
-            <element signature="e#4678#6835#0" />
-            <element signature="e#6837#7344#0" />
-            <element signature="e#8851#11246#0" />
-            <element signature="e#12930#12978#0" />
           </folding>
         </state>
       </provider>
