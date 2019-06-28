@@ -7,9 +7,10 @@ global ts
 
 %.-A-.
 %LB
-ALB = -1 * eye(2*nPasos);
+disp(nPasos)
+ALB = -1 * eye(2*nPasos,2*nPasos);
 %UB
-AUB = eye(2*nPasos);
+AUB = eye(2*nPasos,2*nPasos);
 %DeltaLB
 ADeltaLB = zeros((nPasos-1),nPasos);
 %DeltaUB
@@ -29,9 +30,9 @@ rell3 = zeros((nPasos-1),nPasos);
 Ades = [rell1,ALB;rell1,AUB;rell2,ADeltaLB,rell3;rell2,rell3,ADeltaLB;rell2,ADeltaUB,rell3;rell2,rell3,ADeltaUB];
 
 %.-b-.
-bLB  = -1*lb * ones(2*nPasos,1);
-bUB = ub * ones(2*nPasos,1);
-bDeltaLB = -ts*deltaLB * ones(2*(nPasos-1),1);
-bDeltaUB = ts*deltaUB * ones(2*(nPasos-1),1);
+bLB  = -1.*lb .* ones(2*nPasos,1);
+bUB = ub .* ones(2*nPasos,1);
+bDeltaLB = -ts.*deltaLB .* ones(2*(nPasos-1),1);
+bDeltaUB = ts.*deltaUB .* ones(2*(nPasos-1),1);
 bdes = [bLB;bUB;bDeltaLB;bDeltaUB];
 end

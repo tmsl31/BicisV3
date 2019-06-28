@@ -9,18 +9,18 @@ puertoOmnet = 30000;
 puertoMatlab = 30001;
 %Direccion IP del PC.
 %ipLab = "172.17.29.96";
-ipLab = "192.168.0.12";
+ipLab = '192.168.0.12';
 
 %% Apertura de los sockets.
 %Creacion de los sockets TCP.
 %Transmision.
-Tx = udp(ipLab,'RemotePort', puertoOmnet,'LocalPort',puertoMatlab,'Timeout',60);
+%Tx = udp(ipLab,'RemotePort', puertoOmnet,'LocalPort',puertoMatlab,'Timeout',60);
 %Recepcion.
-Rx = udp(ipLab,'RemotePort', puertoMatlab,'LocalPort',puertoOmnet,'Timeout',60);
+Rx = udp(ipLab,'RemotePort', puertoOmnet,'LocalPort',puertoMatlab,'Timeout',60);
 
 %Apertura.
 %Tx.
-fopen(Tx);
+%fopen(Tx);
 %Rx
 fopen(Rx);
 
@@ -33,9 +33,9 @@ load('TSAutoDefinitivo2.mat');
 disp('Definiciones de constantes...')
 
 %Definicion de variables globales.
-global alpha Ldes d 
+global alpha Ldes d ts
 
-% Definición de constantes
+% Definiciï¿½n de constantes
 d = 2;              %Largo de las bicicletas (m).
 %alpha = 1.5200;     %Alpha para 70% de los casos de validacion
 alpha = 0.67;
@@ -80,57 +80,20 @@ Dcont = [0;0];         %Matriz D
 cond = true;
 while (cond)
     %Leer informacion.
+    disp('Escuchando en socket..')
     datos = leerSocket(Rx);
+    disp(datos);
     %Ver si el dato corresponde a secuencia de termino.
-    if datos == 'fin'
+    cond = input('condicion');
+    if (strcmp(datos,'fin'))
         break
     end
     %Encontrar aceleracion deseada.
-    uDes = solveRMPC2(datos, MError, Ades, bdes);
+    %uDes = solveRMPC2(datos, MError, Ades, bdes);
     %Enviar la aceleracion a Omnet.
-    fwrite(Tx,uDes);    
+    %fwrite(Tx,uDes);    
 end
 
 %Si termina el ciclo, cerrar los sockets.
-cerrarSockets(Tx,Rx);
+%cerrarSockets(Tx,Rx);
 
-%% Funciones.
-function [uDes] = solveRMPC2(datos, model, Ades, bdes)
-    %Problema de optimizacion con sockets.    
-    
-    %Variables globales.
-    global Ldes nPasos
-    %Obtencion de variables para la optimizacion.
-    
-    %Optimizar.
-    [uDes] = solveRMPC(xi,vi,xAnterior,vAnterior,vLider,errorAnterior,model,nPasos,Ldes,Ades,bdes);
-end
-
-function [datos] = leerSocket(Rx)
-    %Funcion que obtenga los datos del socket desde Omnet.
-    
-    %<<Posible procesamiento>>
-    %Esperar por datos.
-    cond = true;
-    while (cond)
-        a = fread(Rx);
-        if (~isempty(a))
-            datos = str2double(a);
-            cond = false;
-        end
-    end
-end
-
-function [] = cerrarSockets(Tx,Rx)
-    %Funcion que realiza el cierre de los sockets.
-    
-    %Cerrar sockets.    
-    fclose(Tx);
-    fclose(Rx);
-    %Eliminar sockets.
-    delete(Tx)
-    delete(Rx)
-    %Clear.
-    clear Tx
-    clear Rx
-end
