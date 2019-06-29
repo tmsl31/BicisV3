@@ -2,7 +2,7 @@
 clear;
 close all;
 % Variables globales.
-global bufferError contador alpha d Wx Wv Wu ts
+global bufferError contador alpha d Wx Wv Wu ts buffer0 buffer1 buffer2 buffer3
 %%SCRIPT
 
 %% Parametros de Takagi & Sugeno.
@@ -49,18 +49,32 @@ Dcont = [0;0];          %Matriz D
 %Lider
 x0Leader = 0;
 
+buffer0(1) = x0Leader;
+buffer0(2) = v0Leader;
+buffer0(3) = x0Leader;
 %Bicicleta seguidora 1.
 x0Bici1 = -10;
 v0Bici1 = 1;
 
+
+buffer1(1) = x0Bici1;
+buffer1(2) = v0Bici1;
+buffer1(3) = x0Bici1;
 %Bicicleta seguidora 2.
 x0Bici2 = -20;
 v0Bici2 = 1;
 
+
+buffer2(1) = x0Bici2;
+buffer2(2) = v0Bici2;
+buffer2(3) = x0Bici2;
 %Bicicleta seguidora 3.
 x0Bici3 = -30;
 v0Bici3 = 1;
 
+buffer1(3) = x0Bici3;
+buffer1(3) = v0Bici3;
+buffer1(3) = x0Bici3;
 %Bicicleta seguidora 3.
 x0Bici4 = -40;
 v0Bici4 = 1;

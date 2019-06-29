@@ -1,17 +1,23 @@
-function [aDes] = slidingFunction(xAnterior,vAnterior,aAnterior,xLeader,vLeader,aLeader,xi,vi,ai,Ldes,K,chi,wn)
+function [aDes] = slidingFunction(xAnterior,vAnterior,aAnterior,vLeader,aLeader,xi,vi,Ldes)
     %Funcion que calcule la aceleracion deseada utilizando sliding control.
     
     %Error de espaciamiento.
     epsilon = xi-xAnterior+Ldes;
-    
-    %Terminos funcion
-    t1 = (1-K)*aAnterior;
-    t2 = K*aLeader;
-    t3 = -1*(2*chi-K*(chi+sqrt(chi^2-1)))*(wn*(vi-vAnterior));
-    t4 = -1*(chi+sqrt(chi^2-1))*wn*K*(vi-vLeader);
-    t5 = wn^2*epsilon;
-    
-    %Aceleracion deseada
-    aDes = t1+t2+t3+t4+t5;
+    %Velocidad relativa.
+    epsilonPunto = vi - vAnterior;
+    %Valores de alpha definidos en la simulacion del sistema en Omnetpp.
+    alpha1 = 0.5;
+    alpha2 = 0.5;
+    alpha3 = 0.3;
+    alpha4 = 0.1;
+    alpha5 = 0.04;
+    %Terminos de la funcion.
+    t1 = alpha1 * aAnterior;
+    t2 = alpha2 * aLeader;
+    t3 = alpha3 * epsilonPunto;
+    t4 = alpha4 * (vi - vLeader);
+    t5 = alpha5 * epsilon;
+    %Aceleracion deseada de acuerdo a sliding window
+    aDes = t1+t2-t3-t4-t5;
 
 end

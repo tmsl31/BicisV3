@@ -6,7 +6,9 @@
 Ldes = 2;
 %Aceleracion del lider
 leaderAcceleration = 1;
-
+%Limitaciones aceleracion
+aUB = 1.0;
+aLB = -1.5;
 %% Parametros modificables.
 %Aceleración perfecta del lider.
 perf = input('Tipo de lider (perfecto(1), ruidoso(0)):');
@@ -40,7 +42,7 @@ v0Bici2 = 1;
 x0Bici3 = -30;
 v0Bici3 = 1;
 %% Simular.
-sim('slidingSimulation.slx')
+sim('slidingSimulationSaturado.slx')
 
 function [meanError,varError] = errorActuacion(v0Leader)
     %Funcion que defina la varianza del error de actuacion de acuerdo a la
